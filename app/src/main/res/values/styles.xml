@@ -1,0 +1,53 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/theme</item>
+        <item name="colorAccent">@color/theme_light</item>
+    </style>
+    <!-- Float Action Button -->
+
+    <style name="title_layout_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">#f7f7f7</item>
+    </style>
+
+
+    <style name="back_style">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:background">@drawable/title_btn_bg</item>
+        <item name="android:src">@drawable/ic_arrow_back</item>
+    </style>
+
+    <style name="title_textview_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:maxWidth">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/ad_text_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:layout_marginLeft">48dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <declare-styleable name="IconView">
+        <attr format="reference" name="img"/>
+        <attr format="reference" name="img_press"/>
+        <attr format="string" name="text"/>
+        <attr format="dimension|reference" name="textMargin"/>
+        <attr format="integer" name="titleTextSize"/>
+    </declare-styleable>
+
+    <style name="separator_title_style">
+        <item name="android:background">@color/separator_title</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+</resources>

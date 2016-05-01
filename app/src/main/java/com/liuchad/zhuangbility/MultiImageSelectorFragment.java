@@ -1,0 +1,485 @@
+package com.liuchad.zhuangbility;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.ListPopupWindow;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.example.liuchad.zhuangbidemo.R;
+import com.liuchad.zhuangbility.adapter.ImageFolderAdapter;
+import com.liuchad.zhuangbility.adapter.ImageGridAdapter;
+import com.liuchad.zhuangbility.util.CommonUtils;
+import com.liuchad.zhuangbility.vo.ImageFile;
+import com.liuchad.zhuangbility.vo.ImageFolder;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MultiImageSelectorFragment extends Fragment {
+
+    private static final String TAG = "MultiImageSelector";
+
+    private final static float IMAGE_FOLDER_ITEM_HEIGHT = 92f;
+
+    /** 最大图片选择次数，int类型 */
+    public static final String EXTRA_SELECT_COUNT = "max_select_count";
+    /** 图片选择模式，int类型 */
+    public static final String EXTRA_SELECT_MODE = "select_count_mode";
+    /** 是否显示相机，boolean类型 */
+    public static final String EXTRA_SHOW_CAMERA = "show_camera";
+    /** 默认选择的数据集 */
+    public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_result";
+    /** 单选 */
+    public static final int MODE_SINGLE = 0;
+    /** 多选 */
+    public static final int MODE_MULTI = 1;
+    // 不同loader定义
+    private static final int LOADER_ALL = 0;
+    private static final int LOADER_CATEGORY = 1;
+    // 请求加载系统照相机
+    private static final int REQUEST_CAMERA = 100;
+
+    // 结果数据
+    private ArrayList<String> resultList = new ArrayList<>();
+    // 文件夹数据
+    private ArrayList<ImageFolder> mResultImageFolder = new ArrayList<>();
+
+    // 图片Grid
+    private GridView mGridView;
+    private Callback mCallback;
+
+    private ImageGridAdapter mImageAdapter;
+    private ImageFolderAdapter mFolderAdapter;
+
+    private ListPopupWindow mFolderPopupWindow;
+    private View mViewShadowBg;
+
+    // 类别
+    private TextView mCategoryText;
+    // 预览按钮
+    private Button mPreviewBtn;
+    // 底部View
+    private View mPopupAnchorView;
+
+    private int mMaxSelectCount;
+    private int mSelectMode;
+
+    private boolean hasFolderGened = false;
+    private boolean mIsShowCamera = false;
+
+    private int mGridViewWidth;
+    private int mGridViewHeight;
+
+    private File mTmpFile;
+
+    private View view;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (Callback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("The Activity must implement MultiImageSelectorFragment.Callback interface...");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_multi_image, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+        // 选择图片数量
+        mMaxSelectCount = getArguments().getInt(EXTRA_SELECT_COUNT);
+        // 图片选择模式
+        mSelectMode = getArguments().getInt(EXTRA_SELECT_MODE);
+        // 默认选择
+        if (mSelectMode == MODE_MULTI) {
+            ArrayList<String> tmp = getArguments().getStringArrayList(EXTRA_DEFAULT_SELECTED_LIST);
+            if (tmp != null && tmp.size() > 0) {
+                resultList = tmp;
+            }
+        }
+        // 是否显示照相机
+        mIsShowCamera = getArguments().getBoolean(EXTRA_SHOW_CAMERA, true);
+        mImageAdapter = new ImageGridAdapter(getActivity(), mIsShowCamera);
+        // 是否显示选择指示器
+        mImageAdapter.showSelectIndicator(mSelectMode == MODE_MULTI);
+        initView();
+        setListener();
+    }
+
+    public void initView() {
+        mPopupAnchorView = view.findViewById(R.id.footer);
+        mCategoryText = (TextView) view.findViewById(R.id.category_btn);
+        mPreviewBtn = (Button) view.findViewById(R.id.preview);
+        mGridView = (GridView) view.findViewById(R.id.grid);
+        mGridView.setNumColumns(3);
+        mViewShadowBg = view.findViewById(R.id.view_shadow_bg);
+    }
+
+    public void setListener() {
+        mCategoryText.setText(R.string.folder_all);
+        mCategoryText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mFolderPopupWindow.isShowing()) {
+                    mFolderPopupWindow.dismiss();
+                } else {
+                    setFolderPopWindowSize(mGridViewWidth, mGridViewHeight);
+                    mFolderPopupWindow.show();
+                    mViewShadowBg.setVisibility(View.VISIBLE);
+                    int index = mFolderAdapter.getSelectIndex();
+                    index = index == 0 ? index : index - 1;
+                    mFolderPopupWindow.getListView().setSelection(index);
+                }
+            }
+        });
+
+        setPreViewStatus();
+        mPreviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO 预览
+            }
+        });
+
+        mGridView.setAdapter(mImageAdapter);
+        monitorGridViewSizeChange();
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (mImageAdapter.isShowCamera() && i == 0) {
+                    showCameraAction();
+                } else {
+                    ImageFile image = (ImageFile) adapterView.getAdapter().getItem(i);
+                    selectImageFromGrid(image, mSelectMode);
+                }
+            }
+        });
+        mFolderAdapter = new ImageFolderAdapter(getActivity());
+    }
+
+    /**
+     * 设置相册文件夹 PopupWindow 的尺寸
+     *
+     * @param width 宽度
+     * @param contentViewHeight 高度
+     */
+    private void setFolderPopWindowSize(int width, int contentViewHeight) {
+        int maxHeight = contentViewHeight * 5 / 7;
+        int realHeight = mFolderAdapter.getCount() * CommonUtils.dip2px(getContext(), IMAGE_FOLDER_ITEM_HEIGHT);
+
+        int height = realHeight < maxHeight ? realHeight : maxHeight;
+        if (mFolderPopupWindow == null) {
+            createPopupFolderList(width, height);
+        } else {
+            mFolderPopupWindow.setWidth(width);
+            mFolderPopupWindow.setHeight(height);
+        }
+    }
+
+    /**
+     * 创建弹出的相册文件夹的 PopupWindow
+     *
+     * @param width PopupWindow 宽度
+     * @param height PopupWindow 高度
+     */
+    private void createPopupFolderList(int width, int height) {
+        mFolderPopupWindow = new ListPopupWindow(getActivity());
+        mFolderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mFolderPopupWindow.setAdapter(mFolderAdapter);
+        mFolderPopupWindow.setContentWidth(width);
+        mFolderPopupWindow.setWidth(width);
+        mFolderPopupWindow.setHeight(height);
+        mFolderPopupWindow.setAnchorView(mPopupAnchorView);
+        mFolderPopupWindow.setModal(true);
+        mFolderPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mViewShadowBg.setVisibility(View.GONE);
+            }
+        });
+        mFolderPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                mFolderAdapter.setSelectIndex(i);
+
+                final int index = i;
+                final AdapterView v = adapterView;
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mFolderPopupWindow.dismiss();
+                        if (index == 0) {
+                            getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
+                            mCategoryText.setText(R.string.folder_all);
+                            mImageAdapter.setShowCamera(mIsShowCamera);
+                        } else {
+                            ImageFolder imageFolder = (ImageFolder) v.getAdapter().getItem(index);
+                            if (null != imageFolder) {
+                                mImageAdapter.setData(imageFolder.images);
+                                mCategoryText.setText(imageFolder.name);
+                                // 设定默认选择
+                                if (resultList != null && resultList.size() > 0) {
+                                    mImageAdapter.setDefaultSelected(resultList);
+                                }
+                            }
+                            mImageAdapter.setShowCamera(false);
+                        }
+                        // 滑动到最初始位置
+                        mGridView.smoothScrollToPosition(0);
+                    }
+                }, 100);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // 首次加载所有图片
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 相机拍照完成后，返回图片路径
+        if (requestCode == REQUEST_CAMERA) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (mTmpFile != null) {
+                    if (mCallback != null) {
+                        mCallback.onCameraShot(mTmpFile);
+                    }
+                }
+            } else {
+                if (mTmpFile != null && mTmpFile.exists()) {
+                    mTmpFile.delete();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // 处理屏幕旋转问题
+        if (mFolderPopupWindow != null && mFolderPopupWindow.isShowing()) {
+            mFolderPopupWindow.dismiss();
+        }
+        monitorGridViewSizeChange();
+        super.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * 监控 GridView 的变化改变相册文件夹的尺寸
+     */
+    private void monitorGridViewSizeChange() {
+        mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int width = mGridView.getWidth();
+                int height = mGridView.getHeight();
+                mGridViewWidth = width;
+                mGridViewHeight = height;
+                setFolderPopWindowSize(width, height);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mGridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    mGridView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            }
+        });
+    }
+
+    /**
+     * 选择相机
+     */
+    private void showCameraAction() {
+        // 跳转到系统照相机
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // 设置系统相机拍照后的输出路径
+            // 创建临时文件
+            mTmpFile = CommonUtils.createTmpFile(getActivity());
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+            startActivityForResult(cameraIntent, REQUEST_CAMERA);
+        } else {
+            Toast.makeText(getActivity(), R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 选择图片操作
+     */
+    private void selectImageFromGrid(ImageFile image, int mode) {
+        if (image == null) {
+            return;
+        }
+        switch (mode) {
+            case MODE_MULTI:
+                if (resultList.contains(image.path)) {
+                    resultList.remove(image.path);
+                    if (mCallback != null) {
+                        mCallback.onImageUnselected(image.path);
+                    }
+                } else {
+                    // 判断选择数量问题
+                    if (mMaxSelectCount == resultList.size()) {
+                        Toast.makeText(getActivity(), R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    resultList.add(image.path);
+                    if (mCallback != null) {
+                        mCallback.onImageSelected(image.path);
+                    }
+                }
+                setPreViewStatus();
+                mImageAdapter.select(image);
+                break;
+            case MODE_SINGLE:
+                if (mCallback != null) {
+                    mCallback.onSingleImageSelected(image.path);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 设置预览按钮的状态
+     *
+     * 注:暂时没这个功能 (16.04.07)
+     */
+    private void setPreViewStatus() {
+        if (resultList != null && resultList.size() != 0) {
+            mPreviewBtn.setEnabled(true);
+            mPreviewBtn.setText(String.format(getResources().getString(R.string.image_preview_format), resultList.size()));
+        } else {
+            mPreviewBtn.setEnabled(false);
+            mPreviewBtn.setText(R.string.preview);
+        }
+    }
+
+    /**
+     * Loader 读取系统图片的回调
+     */
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
+
+        private final String[] IMAGE_PROJECTION = {
+            MediaStore.Images.Media.DATA,
+            MediaStore.Images.Media.DISPLAY_NAME,
+            MediaStore.Images.Media.DATE_ADDED,
+            MediaStore.Images.Media._ID
+        };
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            if (id == LOADER_ALL) {
+                return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION, null, null,
+                    IMAGE_PROJECTION[2] + " DESC");
+            } else if (id == LOADER_CATEGORY) {
+                return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
+                    IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'", null, IMAGE_PROJECTION[2] + " DESC");
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if (data == null || data.getCount() <= 0) {
+                return;
+            }
+            // 读取图片数据
+            List<ImageFile> images = new ArrayList<>();
+            data.moveToFirst();
+            do {
+                String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+                String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
+                long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
+                File file = new File(path);
+                if (file.exists()) {
+                    ImageFile image = new ImageFile(path, name, dateTime);
+                    images.add(image);
+                    if (!hasFolderGened) {
+                        // 获取文件夹名称
+                        File imageFile = new File(path);
+                        File folderFile = imageFile.getParentFile();
+                        ImageFolder imageFolder = new ImageFolder();
+                        imageFolder.name = folderFile.getName();
+                        imageFolder.path = folderFile.getAbsolutePath();
+                        imageFolder.cover = image;
+                        if (!mResultImageFolder.contains(imageFolder)) {
+                            List<ImageFile> imageList = new ArrayList<>();
+                            imageList.add(image);
+                            imageFolder.images = imageList;
+                            mResultImageFolder.add(imageFolder);
+                        } else {
+                            // 更新
+                            ImageFolder folder = mResultImageFolder.get(mResultImageFolder.indexOf(imageFolder));
+                            folder.images.add(image);
+                        }
+                    }
+                }
+            } while (data.moveToNext());
+
+            mImageAdapter.setData(images);
+            // 设定默认选择
+            if (resultList != null && resultList.size() > 0) {
+                mImageAdapter.setDefaultSelected(resultList);
+            }
+
+            mFolderAdapter.setData(mResultImageFolder);
+            hasFolderGened = true;
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+
+        }
+    };
+
+    /**
+     * 回调接口
+     */
+    public interface Callback {
+        void onSingleImageSelected(String path);
+
+        void onImageSelected(String path);
+
+        void onImageUnselected(String path);
+
+        void onCameraShot(File imageFile);
+    }
+}

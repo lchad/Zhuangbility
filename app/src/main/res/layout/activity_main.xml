@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/zhuangbi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:background="@color/white"
+                android:maxWidth="300dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/kt2"/>
+
+            <LinearLayout
+                android:id="@+id/direction_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/text_direction"
+                    android:textColor="@color/ad_text_color"
+                    android:textSize="16sp"/>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/text_direction_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/bottom"/>
+
+                    <RadioButton
+                        android:id="@+id/text_direction_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/up"/>
+                </RadioGroup>
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/text_inside_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/inside"/>
+
+                    <RadioButton
+                        android:id="@+id/text_beyond_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/beyond"/>
+                </RadioGroup>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="94dp">
+
+                <CheckBox
+                    android:id="@+id/bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/bold"/>
+                <CheckBox
+                    android:id="@+id/italic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/italic"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/text_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/text_color"
+                    android:textColor="@color/ad_text_color"
+                    android:textSize="16sp"/>
+                <RadioGroup
+                    android:id="@+id/text_color_rg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/default_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:checked="true"
+                        android:text="@string/default_color"/>
+
+                    <RadioButton
+                        android:id="@+id/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/black"/>
+
+                    <RadioButton
+                        android:id="@+id/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/white"/>
+
+                    <RadioButton
+                        android:id="@+id/gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/gray"/>
+                </RadioGroup>
+
+                <ImageView
+                    android:id="@+id/color_picker"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="12dp"
+                    android:padding="3dp"
+                    android:src="@drawable/ic_sort_black_36dp"/>
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+                <!--<ImageView-->
+                <!--android:id="@+id/zoom_in"-->
+                <!--android:layout_width="48dp"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:src="@drawable/ic_zoom_in_black_48dp"/>-->
+                <!---->
+                <!--<ImageView-->
+                <!--android:id="@+id/zoom_out"-->
+                <!--android:layout_width="48dp"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:src="@drawable/ic_zoom_out_black_48dp"/>-->
+                <!---->
+                <!--</LinearLayout>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/quality"
+                    android:textColor="@color/ad_text_color"
+                    android:textSize="16sp"/>
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/higher_quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/hd"/>
+                    <RadioButton
+                        android:id="@+id/lower_quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lower_quality"/>
+                    <RadioButton
+                        android:id="@+id/pure_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pure_text"
+                        android:visibility="visible"/>
+                </RadioGroup>
+
+                <include
+                    layout="@layout/tip_quality"
+                    android:id="@+id/tips_quality"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/text_size"
+                    android:textColor="@color/ad_text_color"
+                    android:textSize="16sp"/>
+
+                <SeekBar
+                    android:id="@+id/text_size_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@id/text_size"
+                    android:progress="40"
+                    style="?android:attr/progressBarStyleHorizontal"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/text_mask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/text_mask"
+                    android:textColor="@color/ad_text_color"
+                    android:textSize="16sp"/>
+
+                <SeekBar
+                    android:id="@+id/text_mask_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@id/text_mask"
+                    android:max="20"
+                    android:progress="3"
+                    style="?android:attr/progressBarStyleHorizontal"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/input_content"
+                    android:textColor="@color/ad_text_color"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/emoji_slogan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="29dp"
+                    android:maxLines="2"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <View style="@style/separator_title_style"/>
+    <LinearLayout
+        android:id="@+id/options_container"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#F7F7F7"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
+
+        <com.liuchad.zhuangbility.widget.IconView
+            android:id="@+id/select_from_galery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:img="@drawable/ic_file_folder"
+            app:img_press="@drawable/ic_file_folder_press"
+            app:text="文件"
+            />
+
+        <com.liuchad.zhuangbility.widget.IconView
+            android:id="@+id/select_from_recomend"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            app:img="@drawable/ic_editor_insert_photo"
+            app:img_press="@drawable/ic_editor_insert_photo_press"
+            app:text="图库"/>
+
+        <com.liuchad.zhuangbility.widget.IconView
+            android:id="@+id/save_to_local"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:img="@drawable/ic_action_get_app"
+            app:img_press="@drawable/ic_action_get_app_press"
+            app:text="保存"/>
+
+        <com.liuchad.zhuangbility.widget.IconView
+            android:id="@+id/share_to_qq"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:img="@drawable/sz_ic_qq"
+            app:img_press="@drawable/sz_ic_qq_press"
+            app:text="QQ好友"/>
+
+        <com.liuchad.zhuangbility.widget.IconView
+            android:id="@+id/share_to_wechat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:img="@drawable/sz_ic_wx"
+            app:img_press="@drawable/sz_ic_wx_press"
+            app:text="@string/setting_share_wechat"/>
+
+        <!--<com.liuchad.zhuangbility.widget.IconView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--app:img="@drawable/sz_ic_pyq"-->
+        <!--app:img_press="@drawable/sz_ic_pyq_press"-->
+        <!--app:text="@string/setting_share_moment"/>-->
+
+
+    </LinearLayout>
+
+</LinearLayout>

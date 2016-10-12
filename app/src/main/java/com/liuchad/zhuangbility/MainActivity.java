@@ -199,7 +199,6 @@ public class MainActivity extends AppCompatActivity
         mTextPaint.setAntiAlias(true);
         mRectPaint = new Paint();
         mCanvas = new Canvas();
-
         mTextSizeProgress.setMax((int) (getResources().getDisplayMetrics().density * 50));
         mTextSizeProgress.setOnSeekBarChangeListener(this);
         mTextMaskProgress.setOnSeekBarChangeListener(this);

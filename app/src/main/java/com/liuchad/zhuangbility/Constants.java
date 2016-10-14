@@ -15,4 +15,5 @@ public class Constants {
     public static final String ACTION_SEND = "android.intent.action.SEND";
 
     public static final String IMAGE_JPEG = "image/jpeg";
+    public static final int WRITE_EXTERNAL_STORAGE = 824;
 }

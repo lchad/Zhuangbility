@@ -1,7 +1,9 @@
 package com.liuchad.zhuangbility;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -11,9 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.ListPopupWindow;
@@ -37,18 +42,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.workarounds.bundler.annotations.Arg;
+import in.workarounds.bundler.annotations.RequireBundler;
+import in.workarounds.bundler.annotations.Required;
+
+@RequireBundler
 public class MultiImageSelectorFragment extends Fragment {
 
-    private static final String TAG = "MultiImageSelector";
-
     private final static float IMAGE_FOLDER_ITEM_HEIGHT = 92f;
-
-    /** 最大图片选择次数，int类型 */
-    public static final String EXTRA_SELECT_COUNT = "max_select_count";
-    /** 图片选择模式，int类型 */
-    public static final String EXTRA_SELECT_MODE = "select_count_mode";
-    /** 是否显示相机，boolean类型 */
-    public static final String EXTRA_SHOW_CAMERA = "show_camera";
     /** 默认选择的数据集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_result";
     /** 单选 */
@@ -83,8 +84,6 @@ public class MultiImageSelectorFragment extends Fragment {
     // 底部View
     private View mPopupAnchorView;
 
-    private int mMaxSelectCount;
-    private int mSelectMode;
 
     private boolean hasFolderGened = false;
     private boolean mIsShowCamera = false;
@@ -95,6 +94,10 @@ public class MultiImageSelectorFragment extends Fragment {
     private File mTmpFile;
 
     private View view;
+
+    public @Arg @Required() int selectMode;
+    public @Arg @Required(false) int maxSelectCount = 10;
+    public @Arg @Required() boolean showCamera;
 
     @Override
     public void onAttach(Activity activity) {
@@ -115,22 +118,17 @@ public class MultiImageSelectorFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        // 选择图片数量
-        mMaxSelectCount = getArguments().getInt(EXTRA_SELECT_COUNT);
-        // 图片选择模式
-        mSelectMode = getArguments().getInt(EXTRA_SELECT_MODE);
         // 默认选择
-        if (mSelectMode == MODE_MULTI) {
+        if (selectMode == MODE_MULTI) {
             ArrayList<String> tmp = getArguments().getStringArrayList(EXTRA_DEFAULT_SELECTED_LIST);
             if (tmp != null && tmp.size() > 0) {
                 resultList = tmp;
             }
         }
         // 是否显示照相机
-        mIsShowCamera = getArguments().getBoolean(EXTRA_SHOW_CAMERA, true);
         mImageAdapter = new ImageGridAdapter(getActivity(), mIsShowCamera);
         // 是否显示选择指示器
-        mImageAdapter.showSelectIndicator(mSelectMode == MODE_MULTI);
+        mImageAdapter.showSelectIndicator(selectMode == MODE_MULTI);
         initView();
         setListener();
     }
@@ -157,6 +155,7 @@ public class MultiImageSelectorFragment extends Fragment {
                     mViewShadowBg.setVisibility(View.VISIBLE);
                     int index = mFolderAdapter.getSelectIndex();
                     index = index == 0 ? index : index - 1;
+                    //noinspection ConstantConditions
                     mFolderPopupWindow.getListView().setSelection(index);
                 }
             }
@@ -179,7 +178,7 @@ public class MultiImageSelectorFragment extends Fragment {
                     showCameraAction();
                 } else {
                     ImageFile image = (ImageFile) adapterView.getAdapter().getItem(i);
-                    selectImageFromGrid(image, mSelectMode);
+                    selectImageFromGrid(image, selectMode);
                 }
             }
         });
@@ -267,7 +266,13 @@ public class MultiImageSelectorFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // 首次加载所有图片
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_STORAGE);
+        } else {
+            getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+        }
     }
 
     @Override
@@ -334,7 +339,7 @@ public class MultiImageSelectorFragment extends Fragment {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {
-            Toast.makeText(getActivity(), R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
+            CommonUtils.showToast(R.string.msg_no_camera);
         }
     }
 
@@ -354,8 +359,8 @@ public class MultiImageSelectorFragment extends Fragment {
                     }
                 } else {
                     // 判断选择数量问题
-                    if (mMaxSelectCount == resultList.size()) {
-                        Toast.makeText(getActivity(), R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
+                    if (maxSelectCount == resultList.size()) {
+                        CommonUtils.showToast(R.string.msg_amount_limit);
                         return;
                     }
                     resultList.add(image.path);
@@ -407,10 +412,10 @@ public class MultiImageSelectorFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             if (id == LOADER_ALL) {
                 return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION, null, null,
-                    IMAGE_PROJECTION[2] + " DESC");
+                        IMAGE_PROJECTION[2] + " DESC");
             } else if (id == LOADER_CATEGORY) {
                 return new CursorLoader(getActivity(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-                    IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'", null, IMAGE_PROJECTION[2] + " DESC");
+                        IMAGE_PROJECTION[0] + " like '%" + args.getString("path") + "%'", null, IMAGE_PROJECTION[2] + " DESC");
             }
 
             return null;
@@ -470,6 +475,20 @@ public class MultiImageSelectorFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Constants.WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    CommonUtils.showToast(getString(R.string.rejected_hint));
+                } else {
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+                }
+            }
+        }
+    }
+
     /**
      * 回调接口
      */
@@ -482,4 +501,5 @@ public class MultiImageSelectorFragment extends Fragment {
 
         void onCameraShot(File imageFile);
     }
+
 }

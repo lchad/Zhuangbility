@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.workarounds.bundler.annotations.RequireBundler;
+
 import com.example.liuchad.zhuangbidemo.R;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
 import org.greenrobot.eventbus.EventBus;
 
+@RequireBundler
 public class SelectPicActivity extends AppCompatActivity {
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;

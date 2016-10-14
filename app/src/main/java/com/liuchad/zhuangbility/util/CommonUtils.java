@@ -21,8 +21,10 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.Toast;
+
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.ZbApp;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,6 +73,10 @@ public class CommonUtils {
 
     public static void showToast(String message) {
         Toast.makeText(ZbApp.getInstance(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showToast(int messageId) {
+        Toast.makeText(ZbApp.getInstance(), ZbApp.getInstance().getText(messageId), Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -13,13 +13,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.ColorInt;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Layout;
@@ -39,25 +42,34 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.example.liuchad.zhuangbidemo.R;
+import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
+import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import com.liuchad.zhuangbility.util.CommonUtils;
 import com.liuchad.zhuangbility.widget.IconView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import in.workarounds.bundler.Bundler;
 import me.priyesh.chroma.ChromaDialog;
 import me.priyesh.chroma.ColorMode;
 import me.priyesh.chroma.ColorSelectListener;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity
-    implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-    IconView.IconClickListener {
+        implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener,
+        IconView.IconClickListener {
 
     @Bind(R.id.zhuangbi) ImageView mEmoji;
     @Bind(R.id.emoji_slogan) EditText mEmojiInputContent;
@@ -122,11 +134,11 @@ public class MainActivity extends AppCompatActivity
 
     private int mTextSize = 40;
 
-    private static final int[] defaultFontColors = new int[] {
-        Color.parseColor("#333333"),    //默认字体颜色
-        Color.BLACK,
-        Color.WHITE,
-        Color.GRAY,
+    private static final int[] defaultFontColors = new int[]{
+            Color.parseColor("#333333"),    //默认字体颜色
+            Color.BLACK,
+            Color.WHITE,
+            Color.GRAY,
     };
 
     /**
@@ -155,13 +167,17 @@ public class MainActivity extends AppCompatActivity
     /**
      * (高清/祖传)模式标志位
      */
-    private int mPicMode = MODE_HIGH_QUANTITY;
+    private int mPicMode = QuantityMode.HIGH;
 
     private int screenWidth;
 
-    public static final int MODE_HIGH_QUANTITY = 0;
-    public static final int MODE_LOW_QUANTITY = 1;
-    public static final int MODE_PURE_TEXT_QUANTITY = 2;
+    @IntDef({QuantityMode.HIGH, QuantityMode.LOW, QuantityMode.PURE_TEXT})
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface QuantityMode {
+        int HIGH = 0;
+        int LOW = 1;
+        int PURE_TEXT = 2;
+    }
 
     private String[] modeStringArray = {Constants.GAOQING, Constants.ZUCHUAN, Constants.PURE_TEXT};
 
@@ -249,9 +265,9 @@ public class MainActivity extends AppCompatActivity
         mRectPaint.setStyle(Paint.Style.FILL);
 
         mComposedEmoji = Bitmap.createBitmap(
-            mOriginalEmoji.getWidth(),
-            mIsTextInside ? mOriginalEmoji.getHeight() : mOriginalEmoji.getHeight() + extraTextAreaHeight,
-            Bitmap.Config.ARGB_8888);
+                mOriginalEmoji.getWidth(),
+                mIsTextInside ? mOriginalEmoji.getHeight() : mOriginalEmoji.getHeight() + extraTextAreaHeight,
+                Bitmap.Config.ARGB_8888);
 
         resizeImageView(mComposedEmoji.getWidth(), mComposedEmoji.getHeight());
 
@@ -259,7 +275,7 @@ public class MainActivity extends AppCompatActivity
 
         //通过StaticLayout来达到换行的效果.
         StaticLayout staticLayout = new StaticLayout(mEmojiText, mTextPaint, mOriginalEmoji.getWidth(),
-            Layout.Alignment.ALIGN_CENTER, 1, 0, false);
+                Layout.Alignment.ALIGN_CENTER, 1, 0, false);
         mCanvas.save();
         mTextPaint.setTextAlign(Paint.Align.LEFT);
 
@@ -267,8 +283,8 @@ public class MainActivity extends AppCompatActivity
             if (mIsTextBottom) {
                 mCanvas.drawBitmap(mOriginalEmoji, 0f, 0f, null);
                 mCanvas.drawRect(0, mOriginalEmoji.getHeight(), mOriginalEmoji.getWidth(),
-                    mOriginalEmoji.getHeight() + extraTextAreaHeight,
-                    mRectPaint);
+                        mOriginalEmoji.getHeight() + extraTextAreaHeight,
+                        mRectPaint);
                 mCanvas.translate(0, mOriginalEmoji.getHeight());
             } else {
                 mCanvas.drawBitmap(mOriginalEmoji, 0f, extraTextAreaHeight, null);
@@ -292,13 +308,7 @@ public class MainActivity extends AppCompatActivity
 
         switch (requestCode) {
             case REQUEST_SELECT_PIC:
-                String pathOfSelectedFile = data.getStringExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                if (resultCode != RESULT_OK || TextUtils.isEmpty(pathOfSelectedFile)) {
-                    return;
-                }
 
-                Uri uri = Uri.fromFile(new File(pathOfSelectedFile));
-                CommonUtils.startPhotoZoom(MainActivity.this, uri, REQUEST_CODE_CAMERA_CROP);
                 break;
             case REQUEST_CODE_CAMERA_CROP: //裁剪
                 if (resultCode != RESULT_OK) {
@@ -308,6 +318,21 @@ public class MainActivity extends AppCompatActivity
                 cropImage(cameraPicPath);
                 break;
         }
+    }
+
+    @Subscribe
+    public void onSinglePicSelectedEvent(SinglePicSelectedEvent event) {
+        if (TextUtils.isEmpty(event.path)) {
+            return;
+        }
+
+        Uri uri = Uri.fromFile(new File(event.path));
+        CommonUtils.startPhotoZoom(MainActivity.this, uri, REQUEST_CODE_CAMERA_CROP);
+    }
+
+    @Subscribe
+    public void onMultiPicSelectedEvent(MultiPicSelectedEvent event) {
+
     }
 
     private void cropImage(String cameraPicPath) {
@@ -431,18 +456,18 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.higher_quality:
                 if (isChecked) {
-                    mPicMode = MODE_HIGH_QUANTITY;
+                    mPicMode = QuantityMode.HIGH;
                 }
                 break;
 
             case R.id.lower_quality:
                 if (isChecked) {
-                    mPicMode = MODE_LOW_QUANTITY;
+                    mPicMode = QuantityMode.LOW;
                 }
                 break;
             case R.id.pure_text:
                 if (isChecked) {
-                    mPicMode = MODE_PURE_TEXT_QUANTITY;
+                    mPicMode = QuantityMode.PURE_TEXT;
                 }
                 break;
 
@@ -508,24 +533,24 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.color_picker:
                 new ChromaDialog.Builder()
-                    .initialColor(getResources().getColor(R.color.theme_light))
-                    .colorMode(ColorMode.ARGB)
-                    .onColorSelected(new ColorSelectListener() {
-                        @Override
-                        public void onColorSelected(@ColorInt int i) {
-                            mColorPicked = i;
-                            doInvalidateCanvas();
-                            mTextColorRg.clearCheck();
-                        }
-                    })
-                    .create()
-                    .show(getSupportFragmentManager(), Constants.ZHUANGBILITY);
+                        .initialColor(getResources().getColor(R.color.theme_light))
+                        .colorMode(ColorMode.ARGB)
+                        .onColorSelected(new ColorSelectListener() {
+                            @Override
+                            public void onColorSelected(@ColorInt int i) {
+                                mColorPicked = i;
+                                doInvalidateCanvas();
+                                mTextColorRg.clearCheck();
+                            }
+                        })
+                        .create()
+                        .show(getSupportFragmentManager(), Constants.ZHUANGBILITY);
                 break;
             case R.id.tips_quality:
                 new AlertDialog.Builder(MainActivity.this)
-                    .setTitle(getString(R.string.quality_title))
-                    .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
-                    .show();
+                        .setTitle(getString(R.string.quality_title))
+                        .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
+                        .show();
                 break;
         }
     }
@@ -551,14 +576,14 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.save_to_local:
                 String filename = getFormatFileName(mPicMode);
-                saveNewEmojiToSdCard(filename, mComposedEmoji);
+                if (mComposedEmoji != null)
+                    saveNewEmojiToSdCard(filename, mComposedEmoji);
                 break;
             case R.id.select_from_galery:
-                MultiImageSelectorActivity.actionStartSingleChoice(MainActivity.this, true, REQUEST_SELECT_PIC);
+                Bundler.multiImageSelectorActivity(MultiImageSelectorActivity.Mode.MODE_SINGLE, true).start(MainActivity.this);
                 break;
             case R.id.select_from_recomend:
-                Intent selectPicIntent = new Intent(MainActivity.this, SelectPicActivity.class);
-                startActivity(selectPicIntent);
+                Bundler.selectPicActivity().start(MainActivity.this);
                 break;
         }
     }
@@ -572,12 +597,24 @@ public class MainActivity extends AppCompatActivity
         sendIntent.setType("image/*");
         String qqFilename = getFormatFileName(mPicMode);
         File zhuangbiDir =
-            new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator
-                + Constants.ZHUANGBILITY);
+                new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + File.separator
+                        + Constants.ZHUANGBILITY);
+        if (mComposedEmoji == null) {
+            return;
+        }
         saveNewEmojiToSdCard(qqFilename, mComposedEmoji);
         File file = new File(zhuangbiDir, qqFilename);
-        sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        Uri uri = null;
+        if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.N){
+            uri = FileProvider.getUriForFile(MainActivity.this,
+                    "com.liuchad.zhuangbility.fileprovider", file);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+
+        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         sendIntent.setComponent(new ComponentName(packageName, destActivity));
         startActivity(sendIntent);
@@ -585,11 +622,11 @@ public class MainActivity extends AppCompatActivity
 
     private String getFormatFileName(int mode) {
         return getString(R.string.app_name_english)
-            + "-"
-            + modeStringArray[mode]
-            + "-"
-            + System.currentTimeMillis()
-            + ".jpeg";
+                + "-"
+                + modeStringArray[mode]
+                + "-"
+                + System.currentTimeMillis()
+                + ".jpeg";
     }
 
     private void handleNotInstalledCase(String packageName) {
@@ -604,12 +641,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void saveNewEmojiToSdCard(String filename, Bitmap bitmap) {
+        if (bitmap == null) {
+            return;
+        }
         boolean hasPermission = (ContextCompat.checkSelfPermission(MainActivity.this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermission) {
             ActivityCompat.requestPermissions(MainActivity.this,
-                new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                REQUEST_WRITE_STORAGE);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_STORAGE);
             return;
         }
 
@@ -617,7 +657,7 @@ public class MainActivity extends AppCompatActivity
         FileOutputStream out = null;
         File dest = null;
         File zhuangbiDir = new File(
-            Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.ZHUANGBILITY);
+                Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.ZHUANGBILITY);
         boolean success = true;
         if (!zhuangbiDir.exists()) {
             success = zhuangbiDir.mkdir();
@@ -636,10 +676,10 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
             CommonUtils.showToast(getString(R.string.file_not_found));
         }
-        bitmap.compress(Bitmap.CompressFormat.JPEG, mPicMode != MODE_LOW_QUANTITY ? 100 : 0, out);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, mPicMode != QuantityMode.LOW ? 100 : 0, out);
         Snackbar.make(mOptionContainer, snackText, Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
-            .show();
+                .setAction("Action", null)
+                .show();
         CommonUtils.refreshLocalDb(MainActivity.this, dest);
 
         if (!dest.exists()) {

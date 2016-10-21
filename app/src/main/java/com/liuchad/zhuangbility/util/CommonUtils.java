@@ -23,7 +23,7 @@ import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.liuchad.zhuangbility.Constants;
-import com.liuchad.zhuangbility.ZbApp;
+import com.liuchad.zhuangbility.base.ZbApp;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

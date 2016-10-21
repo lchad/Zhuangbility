@@ -1,20 +1,18 @@
-package com.liuchad.zhuangbility;
+package com.liuchad.zhuangbility.ui;
 
 import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.liuchad.zhuangbidemo.R;
+import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import in.workarounds.bundler.Bundler;
@@ -98,17 +96,5 @@ public class MultiImageSelectorActivity extends AppCompatActivity
         }
     }
 
-    @IntDef({Mode.MODE_SINGLE, Mode.MODE_MULTI})
-    @Retention(RetentionPolicy.CLASS)
-    public @interface Mode {
-        /**
-         * 单选
-         */
-        int MODE_SINGLE = 0;
-        /**
-         * 多选
-         */
-        int MODE_MULTI = 1;
 
-    }
 }

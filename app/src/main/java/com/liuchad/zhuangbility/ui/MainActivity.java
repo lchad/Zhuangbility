@@ -1,6 +1,7 @@
 package com.liuchad.zhuangbility.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -44,7 +45,7 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.example.liuchad.zhuangbidemo.R;
+import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
@@ -70,10 +71,12 @@ public class MainActivity extends AppCompatActivity
     IconView.IconClickListener {
     /** 申请权限返回标志字段 */
     private static final int REQUEST_WRITE_STORAGE = 112;
+    public final int REQUEST_SELECT_PIC = 101;
     private static final int REQUEST_CODE_CAMERA_CROP = 103;
+
     private static final int[] defaultFontColors =
         new int[] { Color.parseColor("#333333"),    /*默认字体颜色*/ Color.BLACK, Color.WHITE, Color.GRAY, };
-    public final int REQUEST_SELECT_PIC = 101;
+
     @Bind(R.id.zhuangbi) ImageView mEmoji;
     @Bind(R.id.emoji_slogan) EditText mEmojiInputContent;
     @Bind(R.id.text_size_progress) SeekBar mTextSizeProgress;
@@ -100,32 +103,47 @@ public class MainActivity extends AppCompatActivity
     @Bind(R.id.select_from_galery) IconView mSelectFromGalery;
     @Bind(R.id.select_from_recomend) IconView mSelectFromRecomend;
     @Bind(R.id.options_container) LinearLayout mOptionContainer;
+
     /** 要增加的文字 */
     String mEmojiText = "";
+
     private Bitmap mBitmapFromFile;
+
     /** 原图的Bitmap */
-    private Bitmap mOriginalEmoji;
+    @SuppressWarnings("FieldCanBeLocal") private Bitmap mOriginalEmoji;
+
     /** 修改之后的图片的Bitmap */
     private Bitmap mComposedEmoji;
+
     private boolean mIsTextInside = false;
     private boolean mIsTextBottom = true;
+
     /** 默认的文字晕影值 */
     private int mMaskValue = 3;
+
     private int mTextSize = 40;
+
     /** 选择颜色值的下标 */
     private int mTextPaintColorIndex = 0;
+
     /** 颜色选择器设置的颜色值 */
     private int mColorPicked = -1;
+
     private int mFontStyle = 0;
     private TextPaint mTextPaint;
     private Paint mRectPaint;
     private Canvas mCanvas;
+
     /** 默认的素材图片资源id */
     private int mDefaultEmojiId = R.drawable.kt2;
+
     /** (高清/祖传)模式标志位 */
     private int mPicMode = QuantityMode.HIGH;
+
     private int screenWidth;
+
     private String[] modeStringArray = { Constants.GAOQING, Constants.ZUCHUAN, Constants.PURE_TEXT };
+
     private TextWatcher mContentTextWatcher = new TextWatcher() {
         @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
@@ -474,10 +492,11 @@ public class MainActivity extends AppCompatActivity
         doInvalidateCanvas();
     }
 
-    @Override
+    @SuppressLint("InflateParams") @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.color_picker:
+                //noinspection deprecation
                 new ChromaDialog.Builder()
                     .initialColor(getResources().getColor(R.color.theme_light))
                     .colorMode(ColorMode.ARGB)
@@ -552,10 +571,10 @@ public class MainActivity extends AppCompatActivity
         }
         saveNewEmojiToSdCard(qqFilename, mComposedEmoji);
         File file = new File(zhuangbiDir, qqFilename);
-        Uri uri = null;
+        Uri uri;
         if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
             uri = FileProvider.getUriForFile(MainActivity.this,
-                "com.liuchad.zhuangbility.fileprovider", file);
+                Constants.COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER, file);
             sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(file);

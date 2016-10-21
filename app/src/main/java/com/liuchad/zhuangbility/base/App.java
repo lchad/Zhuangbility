@@ -5,9 +5,9 @@ import android.app.Application;
 /**
  * Created by liuchad on 16/4/3.
  */
-public class ZbApp extends Application {
+public class App extends Application {
 
-    private static ZbApp sInstance;
+    private static App sInstance;
 
     @Override
     public void onCreate() {
@@ -15,7 +15,7 @@ public class ZbApp extends Application {
         sInstance = this;
     }
 
-    public static ZbApp getInstance(){
+    public static App getInstance() {
         return sInstance;
     }
 

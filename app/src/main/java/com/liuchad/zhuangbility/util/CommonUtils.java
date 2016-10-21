@@ -21,10 +21,8 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.Toast;
-
 import com.liuchad.zhuangbility.Constants;
-import com.liuchad.zhuangbility.base.ZbApp;
-
+import com.liuchad.zhuangbility.base.App;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +34,7 @@ import java.util.Locale;
  */
 public class CommonUtils {
 
-    public static final String ACTION_CROP = "com.android.camera.action.CROP";
+    private static final String ACTION_CROP = "com.android.camera.action.CROP";
 
     public static String SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -72,11 +70,11 @@ public class CommonUtils {
     }
 
     public static void showToast(String message) {
-        Toast.makeText(ZbApp.getInstance(), message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.getInstance(), message, Toast.LENGTH_SHORT).show();
     }
 
     public static void showToast(int messageId) {
-        Toast.makeText(ZbApp.getInstance(), ZbApp.getInstance().getText(messageId), Toast.LENGTH_SHORT).show();
+        Toast.makeText(App.getInstance(), App.getInstance().getText(messageId), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -90,14 +88,12 @@ public class CommonUtils {
             File pic = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
             String fileName = "multi_image_" + timeStamp + "";
-            File tmpFile = new File(pic, fileName + ".jpg");
-            return tmpFile;
+            return new File(pic, fileName + ".jpg");
         } else {
             File cacheDir = context.getCacheDir();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
             String fileName = "multi_image_" + timeStamp + "";
-            File tmpFile = new File(cacheDir, fileName + ".jpg");
-            return tmpFile;
+            return new File(cacheDir, fileName + ".jpg");
         }
     }
 
@@ -164,7 +160,7 @@ public class CommonUtils {
         }
     }
 
-    public static boolean hasPermission(Context context, String permission) {
+    private static boolean hasPermission(Context context, String permission) {
         return (ContextCompat.checkSelfPermission(context,
             permission) == PackageManager.PERMISSION_GRANTED);
     }
@@ -252,7 +248,7 @@ public class CommonUtils {
 
     private static final float[] ARRAY_BASE_DIVIDEND = { 1f, 1024f, 1024f * 1024f, 1024f * 1024f * 1024f };
 
-    public static boolean externalMemoryAvailable() {
+    private static boolean externalMemoryAvailable() {
         return Environment.getExternalStorageState().equals(
             Environment.MEDIA_MOUNTED);
     }
@@ -277,7 +273,7 @@ public class CommonUtils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static int calculateInSampleSize(
+    private static int calculateInSampleSize(
         BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
         final int width = options.outWidth;
@@ -307,7 +303,7 @@ public class CommonUtils {
             shareIntent.setType("image/*");
             // 遍历所有支持发送图片的应用。找到需要的应用
             PackageManager packageManager = context.getPackageManager();
-            List<ResolveInfo> resolveInfoList =
+            @SuppressWarnings("WrongConstant") List<ResolveInfo> resolveInfoList =
                 packageManager.queryIntentActivities(shareIntent, PackageManager.GET_INTENT_FILTERS);
             ComponentName componentName = null;
             for (int i = 0; i < resolveInfoList.size(); i++) {

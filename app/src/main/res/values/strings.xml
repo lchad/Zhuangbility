@@ -32,6 +32,7 @@
     <string name="image_preview_format">预览(%d)</string>
     <string name="preview">预览</string>
     <string name="select_album">选择相册</string>
+    <string name="select_emoji">选择表情</string>
     <string name="setting_share_wechat">微信好友</string>
     <string name="have_not_install_qq">您并没有安装QQ</string>
     <string name="have_not_install_wechat">您并没有安装微信</string>

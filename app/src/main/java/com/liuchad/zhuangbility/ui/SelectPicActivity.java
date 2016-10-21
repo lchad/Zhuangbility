@@ -10,16 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import in.workarounds.bundler.annotations.RequireBundler;
-
-import com.example.liuchad.zhuangbidemo.R;
+import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
+import in.workarounds.bundler.annotations.RequireBundler;
 import org.greenrobot.eventbus.EventBus;
 
 @RequireBundler
 public class SelectPicActivity extends AppCompatActivity {
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
+    @Bind(R.id.back) ImageView mBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,15 @@ public class SelectPicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_pic);
 
         ButterKnife.bind(this);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         final PicAdapter adapter = new PicAdapter(picIds);
         mRecyclerView.setAdapter(adapter);
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     class PicAdapter extends RecyclerView.Adapter<PicViewHolder> {
@@ -48,12 +52,12 @@ public class SelectPicActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(PicViewHolder holder, final int position) {
+        public void onBindViewHolder(final PicViewHolder holder, final int position) {
             holder.mView.setImageResource(picIds[position]);
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EventBus.getDefault().post(new SelectPicEvent(picIds[position]));
+                    EventBus.getDefault().post(new SelectPicEvent(picIds[holder.getAdapterPosition()]));
                     finish();
                 }
             });
@@ -68,7 +72,7 @@ public class SelectPicActivity extends AppCompatActivity {
     class PicViewHolder extends RecyclerView.ViewHolder {
         ImageView mView;
 
-        public PicViewHolder(View itemView) {
+        PicViewHolder(View itemView) {
             super(itemView);
             mView = (ImageView) itemView.findViewById(R.id.pic);
         }

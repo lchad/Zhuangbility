@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.liuchad.zhuangbidemo">
+    package="com.example.liuchad.zhuangbility">
 
     <!-- 对SD卡进行写的权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="com.liuchad.zhuangbility.base.ZbApp"
+        android:name="com.liuchad.zhuangbility.base.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

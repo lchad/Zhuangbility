@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
-import com.example.liuchad.zhuangbidemo.R;
+import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.vo.ImageFile;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,6 @@ public class ImageGridAdapter extends BaseAdapter {
     private static final int TYPE_NORMAL = 1;
 
     private Context mContext;
-    private int mDesireSize;
     private LayoutInflater mInflater;
     private boolean showCamera = true;
     private boolean showSelectIndicator = true;
@@ -26,18 +25,10 @@ public class ImageGridAdapter extends BaseAdapter {
     private List<ImageFile> mImages = new ArrayList<>();
     private List<ImageFile> mSelectedImages = new ArrayList<>();
 
-    private int mImageWidth = 80;
-
     public ImageGridAdapter(Context context, boolean showCamera) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.showCamera = showCamera;
-        mDesireSize = mContext.getResources().getDimensionPixelOffset(R.dimen.image_size);
-        setImageWidth();
-    }
-
-    private void setImageWidth() {
-        mImageWidth = mContext.getResources().getDisplayMetrics().widthPixels / 3 / 2;
     }
 
     /**
@@ -168,7 +159,7 @@ public class ImageGridAdapter extends BaseAdapter {
         return view;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         ImageView image;
         ImageView ivCheckBox;
         View mask;

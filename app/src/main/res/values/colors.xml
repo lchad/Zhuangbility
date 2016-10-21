@@ -10,4 +10,6 @@
     <color name="transparent">#00000000</color>
     <color name="ad_text_color">#222222</color>
     <color name="separator_title">#b4b4b4</color>
+    <color name="square_bg">#343535</color>
+    <color name="icon_view_title_text_color">#8b868d</color>
 </resources>

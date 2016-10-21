@@ -31,7 +31,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import com.example.liuchad.zhuangbidemo.R;
+import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.adapter.ImageFolderAdapter;
@@ -163,7 +163,7 @@ public class MultiImageSelectorFragment extends Fragment {
     }
   };
 
-  @Override
+  @SuppressWarnings("deprecation") @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
     try {
@@ -353,6 +353,7 @@ public class MultiImageSelectorFragment extends Fragment {
         }
       } else {
         if (mTmpFile != null && mTmpFile.exists()) {
+          //noinspection ResultOfMethodCallIgnored
           mTmpFile.delete();
         }
       }

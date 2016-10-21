@@ -8,7 +8,7 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
-    <com.example.liuchad.zhuangbidemo.widget.GridImageView
+    <com.liuchad.zhuangbility.widget.GridImageView
         android:id="@+id/cover"
         android:layout_width="@dimen/folder_cover_size"
         android:layout_height="@dimen/folder_cover_size"
@@ -16,7 +16,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:scaleType="centerCrop"
-        tools:src="@drawable/btn_back"/>
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,10 +42,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:singleLine="true"
             android:textColor="#AFAFAF"
             android:textSize="12sp"
-            tools:text="1张"/>
+            tools:text="1张"
+            android:maxLines="1"
+            />
 
     </LinearLayout>
 

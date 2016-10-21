@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,7 +13,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.example.liuchad.zhuangbidemo.R;
+import com.example.liuchad.zhuangbility.R;
 
 /**
  * Created by liuchad on 2016/4/26.
@@ -62,7 +61,7 @@ public class IconView extends LinearLayout {
         iconPressResId = ta.getResourceId(R.styleable.IconView_img_press, R.drawable.sz_ic_pyq_press);
         tvTitle.setText(ta.getString(R.styleable.IconView_text));
         tvTitle.setTextSize(ta.getInt(R.styleable.IconView_titleTextSize, 12));
-        tvTitle.setTextColor(Color.parseColor("#8b868d"));
+        tvTitle.setTextColor(getResources().getColor(R.color.icon_view_title_text_color));
         ivIcon.setImageResource(iconResId);
         ta.recycle();
     }

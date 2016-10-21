@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.example.liuchad.zhuangbidemo.R;
+import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.vo.ImageFolder;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +20,11 @@ public class ImageFolderAdapter extends BaseAdapter {
 
     private List<ImageFolder> mImageFolders = new ArrayList<>();
 
-    int mImageSize;
-
-    int lastSelected = 0;
+    private int lastSelected = 0;
 
     public ImageFolderAdapter(Context context) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mImageSize = mContext.getResources().getDimensionPixelOffset(R.dimen.folder_cover_size);
     }
 
     /**
@@ -110,7 +107,7 @@ public class ImageFolderAdapter extends BaseAdapter {
         return lastSelected;
     }
 
-    class ViewHolder {
+    private class ViewHolder {
         ImageView cover;
         TextView name;
         TextView size;

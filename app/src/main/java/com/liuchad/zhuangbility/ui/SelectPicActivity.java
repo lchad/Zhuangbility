@@ -1,7 +1,5 @@
 package com.liuchad.zhuangbility.ui;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -9,24 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.example.liuchad.zhuangbility.R;
+import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
 import in.workarounds.bundler.annotations.RequireBundler;
 import org.greenrobot.eventbus.EventBus;
 
 @RequireBundler
-public class SelectPicActivity extends AppCompatActivity {
+public class SelectPicActivity extends BaseActivity {
 
     @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
     @Bind(R.id.back) ImageView mBack;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_pic);
+    @Override protected int getLayoutId() {
+        return R.layout.activity_select_pic;
+    }
 
-        ButterKnife.bind(this);
+    @Override protected void initView() {
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         final PicAdapter adapter = new PicAdapter(picIds);
@@ -36,6 +33,14 @@ public class SelectPicActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override protected void initData() {
+
+    }
+
+    @Override protected void initInjector() {
+
     }
 
     class PicAdapter extends RecyclerView.Adapter<PicViewHolder> {

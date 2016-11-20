@@ -1,20 +1,26 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.liuchad.zhuangbility"
         minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 3
-        versionName "1.0"
-
+        targetSdkVersion 25
+        versionCode 4
+        versionName "1.0.1"
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -35,25 +41,31 @@ ext {
     rxAndroidVersion = '1.2.1'
     rxJavaVersion = '1.1.6'
     gifDrawableVersion = '1.2.2'
+    leakCanaryVersion = '1.5'
+    stethoVersion = '1.4.1'
 }
-
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:palette-v7:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:palette-v7:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
     compile "com.squareup.okhttp3:okhttp:$okHttpVersion"
     compile "org.greenrobot:eventbus:$eventBusVersion"
-    compile "me.priyesh:chroma:1.0.2"
+    compile 'me.priyesh:chroma:1.0.2'
     compile "pl.droidsonroids.gif:android-gif-drawable:$gifDrawableVersion"
     compile "com.github.bumptech.glide:glide:$glideVersion"
-    compile "io.reactivex:rxjava:$rxJavaVersion"
-    compile "io.reactivex:rxandroid:$rxAndroidVersion"
+    //    compile "io.reactivex:rxjava:$rxJavaVersion"
+    //    compile "io.reactivex:rxandroid:$rxAndroidVersion"
     compile "in.workarounds.bundler:bundler-annotations:$bundlerVersion"
     annotationProcessor "in.workarounds.bundler:bundler-compiler:$bundlerVersion"
     compile 'com.jakewharton:butterknife:7.0.1'
-//    apt 'com.jakewhartonkewharton:butterknife-compiler:8.0.0'
+    //    annotationProcessor 'com.jakewhartonkewharton:butterknife-compiler:8.0.1'
+    //    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    //    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    //    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    //    compile "com.facebook.stetho:stetho:$stethoVersion"
+    compile 'com.android.support:support-annotations:25.0.0'
 }

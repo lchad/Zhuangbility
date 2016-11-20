@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.vo.ImageFile;
@@ -16,6 +18,7 @@ public class ImageGridAdapter extends BaseAdapter {
 
     private static final int TYPE_CAMERA = 0;
     private static final int TYPE_NORMAL = 1;
+    public static final int VIEW_TYPE_COUNT = 2;
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -34,14 +37,14 @@ public class ImageGridAdapter extends BaseAdapter {
     /**
      * 显示选择指示器
      */
-    public void showSelectIndicator(boolean b) {
-        showSelectIndicator = b;
+    public void showSelectIndicator(boolean show) {
+        showSelectIndicator = show;
     }
 
-    public void setShowCamera(boolean b) {
-        if (showCamera == b) return;
+    public void setShowCamera(boolean show) {
+        if (showCamera == show) return;
 
-        showCamera = b;
+        showCamera = show;
         notifyDataSetChanged();
     }
 
@@ -77,11 +80,13 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     private ImageFile getImageByPath(String path) {
-        if (mImages != null && mImages.size() > 0) {
-            for (ImageFile image : mImages) {
-                if (image.path.equalsIgnoreCase(path)) {
-                    return image;
-                }
+        if (mImages == null || mImages.size() <= 0) {
+            return null;
+        }
+
+        for (ImageFile image : mImages) {
+            if (image.path.equalsIgnoreCase(path)) {
+                return image;
             }
         }
         return null;
@@ -103,7 +108,7 @@ public class ImageGridAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return VIEW_TYPE_COUNT;
     }
 
     @Override
@@ -159,15 +164,13 @@ public class ImageGridAdapter extends BaseAdapter {
         return view;
     }
 
-    private class ViewHolder {
-        ImageView image;
-        ImageView ivCheckBox;
-        View mask;
+    public class ViewHolder {
+        @Bind(R.id.image) ImageView image;
+        @Bind(R.id.checkmark) ImageView ivCheckBox;
+        @Bind(R.id.mask) View mask;
 
         ViewHolder(View view) {
-            image = (ImageView) view.findViewById(R.id.image);
-            ivCheckBox = (ImageView) view.findViewById(R.id.checkmark);
-            mask = view.findViewById(R.id.mask);
+            ButterKnife.bind(this, view);
         }
 
         void bindData(final ImageFile data) {

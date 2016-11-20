@@ -1,11 +1,9 @@
 package com.liuchad.zhuangbility.ui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
@@ -15,16 +13,11 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -33,7 +26,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -44,16 +36,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
+import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import com.liuchad.zhuangbility.util.CommonUtils;
 import com.liuchad.zhuangbility.widget.IconView;
 import in.workarounds.bundler.Bundler;
+import in.workarounds.bundler.annotations.RequireBundler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -66,16 +59,18 @@ import me.priyesh.chroma.ColorSelectListener;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-public class MainActivity extends AppCompatActivity
+@RequireBundler
+public class MainActivity extends BaseActivity
     implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener,
     IconView.IconClickListener {
-    /** 申请权限返回标志字段 */
-    private static final int REQUEST_WRITE_STORAGE = 112;
+
     public final int REQUEST_SELECT_PIC = 101;
     private static final int REQUEST_CODE_CAMERA_CROP = 103;
 
-    private static final int[] defaultFontColors =
-        new int[] { Color.parseColor("#333333"),    /*默认字体颜色*/ Color.BLACK, Color.WHITE, Color.GRAY, };
+    private static final int[] defaultFontColors = new int[] {
+        Color.parseColor("#333333"),    /*默认字体颜色*/
+        Color.BLACK, Color.WHITE, Color.GRAY,
+    };
 
     @Bind(R.id.zhuangbi) ImageView mEmoji;
     @Bind(R.id.emoji_slogan) EditText mEmojiInputContent;
@@ -157,22 +152,15 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_main);
-
-        EventBus.getDefault().register(this);
-        ButterKnife.bind(this);
-        screenWidth = CommonUtils.getScreenWidth(MainActivity.this);
-        initViews();
+    @Override protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
-    @Override public void reportFullyDrawn() {
-        super.reportFullyDrawn();
+    @Override protected void initInjector() {
+        Bundler.inject(this);
     }
 
-    private void initViews() {
+    @Override protected void initView() {
         mTextPaint = new TextPaint();
         mTextPaint.setAntiAlias(true);
         mRectPaint = new Paint();
@@ -201,6 +189,15 @@ public class MainActivity extends AppCompatActivity
         mSelectFromGalery.setIconClickListener(this);
         mSaveToLocal.setIconClickListener(this);
         mSelectFromRecomend.setIconClickListener(this);
+    }
+
+    @Override protected void initData() {
+        EventBus.getDefault().register(this);
+        screenWidth = CommonUtils.getScreenWidth(MainActivity.this);
+    }
+
+    @Override public void reportFullyDrawn() {
+        super.reportFullyDrawn();
     }
 
     private void doInvalidateCanvas() { /*输入文字的总宽度*/
@@ -610,14 +607,6 @@ public class MainActivity extends AppCompatActivity
         if (bitmap == null) {
             return;
         }
-        boolean hasPermission = (ContextCompat.checkSelfPermission(MainActivity.this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                REQUEST_WRITE_STORAGE);
-            return;
-        }
 
         String snackText = getString(R.string.filename) + filename;
         FileOutputStream out = null;
@@ -662,19 +651,6 @@ public class MainActivity extends AppCompatActivity
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-        @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    CommonUtils.showToast(getString(R.string.rejected_hint));
-                }
-            }
         }
     }
 

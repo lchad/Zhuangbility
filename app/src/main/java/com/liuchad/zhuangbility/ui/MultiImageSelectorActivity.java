@@ -1,15 +1,13 @@
 package com.liuchad.zhuangbility.ui;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import com.example.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Mode;
+import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import in.workarounds.bundler.Bundler;
@@ -21,7 +19,7 @@ import java.util.ArrayList;
 import org.greenrobot.eventbus.EventBus;
 
 @RequireBundler
-public class MultiImageSelectorActivity extends AppCompatActivity
+public class MultiImageSelectorActivity extends BaseActivity
         implements MultiImageSelectorFragment.Callback {
 
     private ArrayList<String> resultList = new ArrayList<>();
@@ -33,14 +31,15 @@ public class MultiImageSelectorActivity extends AppCompatActivity
 
     @SuppressWarnings("FieldCanBeLocal") private MenuItem mFinishMenu;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_selector);
+    @Override protected int getLayoutId() {
+        return R.layout.activity_image_selector;
+    }
+
+    @Override protected void initInjector() {
         Bundler.inject(this);
-        ButterKnife.bind(this);
+    }
 
-
+    @Override protected void initView() {
         getSupportFragmentManager().beginTransaction()
             .add(R.id.image_grid, Bundler.multiImageSelectorFragment(Mode.MODE_SINGLE, true).create())
             .commit();
@@ -49,6 +48,10 @@ public class MultiImageSelectorActivity extends AppCompatActivity
                 finish();
             }
         });
+    }
+
+    @Override protected void initData() {
+
     }
 
     @Override

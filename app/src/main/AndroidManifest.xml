@@ -30,7 +30,7 @@
       android:smallScreens="true"/>
 
   <application
-      android:name="com.liuchad.zhuangbility.base.App"
+      android:name=".base.App"
       android:allowBackup="true"
       android:icon="@mipmap/ic_launcher"
       android:label="@string/app_name"
@@ -38,22 +38,19 @@
       android:persistent="true"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-
     <activity
-        android:name="com.liuchad.zhuangbility.ui.MainActivity"
+        android:name=".ui.MainActivity"
         android:configChanges="orientation|keyboardHidden"
         android:screenOrientation="portrait">
     </activity>
-
     <activity
-        android:name="com.liuchad.zhuangbility.ui.SelectPicActivity"
+        android:name=".ui.SelectPicActivity"
         android:configChanges="orientation|keyboardHidden"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     </activity>
-
     <activity
-        android:name="com.liuchad.zhuangbility.ui.MultiImageSelectorActivity"
+        android:name=".ui.MultiImageSelectorActivity"
         android:configChanges="orientation|keyboardHidden"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
@@ -69,7 +66,7 @@
     </provider>
 
     <activity
-        android:name="com.liuchad.zhuangbility.ui.SplashActivity"
+        android:name=".ui.SplashActivity"
         android:configChanges="orientation|keyboardHidden"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -79,8 +76,8 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-
-    <activity android:name="com.liuchad.zhuangbility.ui.AboutActivity"
+    <activity
+        android:name=".ui.AboutActivity"
         android:configChanges="orientation|keyboardHidden"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -125,9 +122,9 @@
 
     <!-- \sina -->
 
-    <activity android:name="com.liuchad.zhuangbility.share.QQActivity">
+    <activity android:name=".share.QQActivity">
     </activity>
-    <activity android:name="com.liuchad.zhuangbility.share.SinaActivity">
+    <activity android:name=".share.SinaActivity">
 
       <!-- 调用新浪原生SDK，需要注册的回调activity -->
       <intent-filter>
@@ -137,12 +134,13 @@
       </intent-filter>
     </activity>
     <activity
-        android:name="com.liuchad.zhuangbility.wxapi.WXEntryActivity"
+        android:name=".wxapi.WXEntryActivity"
         android:exported="true">
     </activity>
-    <activity android:name="com.liuchad.zhuangbility.share.WxActivity">
+    <activity android:name=".share.WxActivity">
     </activity>
-
+    <activity android:name=".ui.HistoryActivity">
+    </activity>
   </application>
 
 </manifest>

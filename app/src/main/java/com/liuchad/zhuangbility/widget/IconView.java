@@ -13,7 +13,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.example.liuchad.zhuangbility.R;
+import com.liuchad.zhuangbility.R;
 
 /**
  * Created by liuchad on 2016/4/26.

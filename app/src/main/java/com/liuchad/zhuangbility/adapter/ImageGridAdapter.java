@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
-import com.example.liuchad.zhuangbility.R;
+import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.vo.ImageFile;
 import java.util.ArrayList;
 import java.util.List;

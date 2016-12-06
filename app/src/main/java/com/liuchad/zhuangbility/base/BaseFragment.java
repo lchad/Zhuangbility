@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/10/15.
+ * Created by lchad on 2016/10/15.
  */
 
 public abstract class BaseFragment extends Fragment {
@@ -47,11 +47,23 @@ public abstract class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Get the layout Id.
+     */
     protected abstract int getLayoutId();
 
+    /**
+     * Init the inject.
+     */
+    protected abstract void initInjector();
+
+    /**
+     * Init the listener.
+     */
     protected abstract void initView();
 
+    /**
+     * Init the data.
+     */
     protected abstract void initData();
-
-    protected abstract void initInjector();
 }

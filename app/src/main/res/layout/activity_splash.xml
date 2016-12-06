@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.liuchad.zhuangbility.ui.SplashActivity">
+
+  <ImageView
+      android:layout_marginTop="100dp"
+      android:id="@+id/splash_image"
+      android:layout_centerHorizontal="true"
+      android:src="@drawable/kt2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+  <TextView
+      android:layout_alignParentBottom="true"
+      android:textSize="20sp"
+      android:layout_marginBottom="50dp"
+      android:layout_centerHorizontal="true"
+      android:text="@string/splash_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"/>
+
+</RelativeLayout>

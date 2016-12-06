@@ -38,4 +38,10 @@
   <string name="have_not_install_wechat">您并没有安装微信</string>
   <string name="file_not_found">文件不存在</string>
   <string name="splash_text">装逼从未如此简单</string>
+
+  <string name="errcode_success">发送成功</string>
+  <string name="errcode_cancel">发送取消</string>
+  <string name="errcode_deny">发送被拒绝</string>
+  <string name="errcode_unknown">发送返回</string>
+  <string name="loading">加载中</string>
 </resources>

@@ -17,6 +17,5 @@ public class Constants {
     public static final String IMAGE_JPEG = "image/jpeg";
     public static final int WRITE_EXTERNAL_STORAGE = 824;
     public static final String COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER = "com.liuchad.zhuangbility.fileprovider";
-    public static final String PIC_URL_PREFIX =
-        "https://github.com/lchad/Zhuangbility/blob/master/app/src/main/res/drawable/";
+    public static final String PIC_URL_PREFIX = "https://github.com/lchad/Zhuangbility/blob/master/app/src/main/res/drawable/";
 }

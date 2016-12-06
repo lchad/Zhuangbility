@@ -29,7 +29,7 @@ import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import butterknife.Bind;
-import com.example.liuchad.zhuangbility.R;
+import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.adapter.ImageFolderAdapter;

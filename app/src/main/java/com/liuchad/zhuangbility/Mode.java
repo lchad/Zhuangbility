@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Created by Administrator on 2016/10/15.
+ * Created by lchad on 2016/10/15.
  */
 
 @IntDef({Mode.MODE_SINGLE, Mode.MODE_MULTI})

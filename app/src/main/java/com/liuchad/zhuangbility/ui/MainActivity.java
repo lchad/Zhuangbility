@@ -36,7 +36,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import butterknife.Bind;
-import com.example.liuchad.zhuangbility.R;
+import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.base.BaseActivity;

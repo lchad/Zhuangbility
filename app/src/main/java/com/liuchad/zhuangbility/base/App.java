@@ -4,11 +4,15 @@ import android.app.Application;
 //import com.squareup.leakcanary.LeakCanary;
 
 /**
- * Created by liuchad on 16/4/3.
+ * Created by lchad on 16/4/3.
  */
 public class App extends Application {
 
     private static App sInstance;
+
+    public static final Thread.UncaughtExceptionHandler sUncaughtExceptionHandler = Thread
+        .getDefaultUncaughtExceptionHandler();
+
 
     @Override
     public void onCreate() {

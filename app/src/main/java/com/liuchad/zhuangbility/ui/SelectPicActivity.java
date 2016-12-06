@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import butterknife.Bind;
-import com.example.liuchad.zhuangbility.R;
+import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
 import in.workarounds.bundler.annotations.RequireBundler;

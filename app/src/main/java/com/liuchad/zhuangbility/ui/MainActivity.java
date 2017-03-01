@@ -2,7 +2,6 @@ package com.liuchad.zhuangbility.ui;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,12 +11,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -189,6 +186,7 @@ public class MainActivity extends BaseActivity
         mSelectFromGalery.setIconClickListener(this);
         mSaveToLocal.setIconClickListener(this);
         mSelectFromRecomend.setIconClickListener(this);
+        mEmoji.setOnClickListener(this);
     }
 
     @Override protected void initData() {
@@ -514,6 +512,9 @@ public class MainActivity extends BaseActivity
                     .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
                     .show();
                 break;
+            case R.id.zhuangbi:
+                startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                break;
         }
     }
 
@@ -569,18 +570,18 @@ public class MainActivity extends BaseActivity
         saveNewEmojiToSdCard(qqFilename, mComposedEmoji);
         File file = new File(zhuangbiDir, qqFilename);
         Uri uri;
-        if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-            uri = FileProvider.getUriForFile(MainActivity.this,
-                Constants.COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER, file);
-            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            uri = Uri.fromFile(file);
-        }
+        //if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+        //    uri = FileProvider.getUriForFile(MainActivity.this,
+        //        Constants.COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER, file);
+        //    sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        //} else {
+        //    uri = Uri.fromFile(file);
+        //}
 
-        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        sendIntent.setComponent(new ComponentName(packageName, destActivity));
-        startActivity(sendIntent);
+        //sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        //sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //sendIntent.setComponent(new ComponentName(packageName, destActivity));
+        //startActivity(sendIntent);
     }
 
     private String getFormatFileName(int mode) {

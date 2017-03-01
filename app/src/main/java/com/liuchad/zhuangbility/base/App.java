@@ -1,18 +1,25 @@
 package com.liuchad.zhuangbility.base;
 
 import android.app.Application;
+import com.facebook.react.BuildConfig;
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactPackage;
+import java.util.Arrays;
+import java.util.List;
 //import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by lchad on 16/4/3.
  */
-public class App extends Application {
+public class App extends Application
+    //implements ReactApplication
+{
 
     private static App sInstance;
 
     public static final Thread.UncaughtExceptionHandler sUncaughtExceptionHandler = Thread
         .getDefaultUncaughtExceptionHandler();
-
 
     @Override
     public void onCreate() {
@@ -34,4 +41,18 @@ public class App extends Application {
     public String getPackageName() {
         return super.getPackageName();
     }
+
+    //private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    //    @Override public boolean getUseDeveloperSupport() {
+    //        return BuildConfig.DEBUG;
+    //    }
+    //
+    //    @Override protected List<ReactPackage> getPackages() {
+    //        return Arrays.asList();
+    //    }
+    //};
+    //
+    //@Override public ReactNativeHost getReactNativeHost() {
+    //    return null;
+    //}
 }

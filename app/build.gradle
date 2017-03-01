@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'com.neenbedankt.android-apt'
 android {
-    compileSdkVersion 25
+    compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.liuchad.zhuangbility"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 23
         versionCode 4
         versionName "1.0.1"
     }
@@ -48,10 +48,10 @@ ext {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:palette-v7:25.0.0'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:palette-v7:23.0.1'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
     compile "com.squareup.okhttp3:okhttp:$okHttpVersion"
     compile "org.greenrobot:eventbus:$eventBusVersion"
     compile 'me.priyesh:chroma:1.0.2'
@@ -73,4 +73,6 @@ dependencies {
     compile files('libs/open_sdk_r5509.jar')
     compile files('libs/weiboSDKCore_3.1.4.jar')
     compile files('libs/libammsdk.jar')
+
+    compile "com.facebook.react:react-native:+" // From node_modules.
 }

@@ -12,6 +12,7 @@ public class Constants {
     public static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     public static final String QQ_SEND_ACTIVITY = "com.tencent.mobileqq.activity.JumpActivity";
     public static final String WECHAT_SEND_ACTIVITY = "com.tencent.mm.ui.tools.ShareImgUI";
+    public static final String WECHAT_SEND_TIME_LINE_ACTIVITY = "com.tencent.mm.ui.tools.ShareToTimeLineUI";
     public static final String ACTION_SEND = "android.intent.action.SEND";
 
     public static final String IMAGE_JPEG = "image/jpeg";

@@ -20,6 +20,7 @@
   <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
   <uses-permission android:name="android.permission.GET_TASKS"/>
 
+
   <uses-feature android:name="android.hardware.camera"/>
   <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -83,6 +84,17 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     </activity>
 
+    <activity android:name=".TestActivity"
+        android:configChanges="orientation|keyboardHidden"
+        android:screenOrientation="portrait"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+      <!--<intent-filter>-->
+      <!--<action android:name="android.intent.action.MAIN"/>-->
+
+      <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+    <!--</intent-filter>-->
+    </activity>
+
     <!-- QQ -->
     <activity
         android:name="com.tencent.tauth.AuthActivity"
@@ -115,10 +127,10 @@
         android:windowSoftInputMode="adjustResize">
     </activity>
 
-    <service
-        android:name="com.sina.weibo.sdk.net.DownloadService"
-        android:exported="false">
-    </service>
+    <!--<service-->
+        <!--android:name="com.sina.weibo.sdk.net.DownloadService"-->
+        <!--android:exported="false">-->
+    <!--</service>-->
 
     <!-- \sina -->
 
@@ -133,10 +145,10 @@
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>
     </activity>
-    <activity
-        android:name=".wxapi.WXEntryActivity"
-        android:exported="true">
-    </activity>
+    <!--<activity>-->
+        <!--android:name=".wxapi.WXEntryActivity"-->
+        <!--android:exported="true">-->
+    <!--</activity>-->
     <activity android:name=".share.WxActivity">
     </activity>
     <activity android:name=".ui.HistoryActivity">

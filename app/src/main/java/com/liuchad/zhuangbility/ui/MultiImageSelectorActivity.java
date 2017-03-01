@@ -5,8 +5,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
-import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Mode;
+import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 
 @RequireBundler
 public class MultiImageSelectorActivity extends BaseActivity
-        implements MultiImageSelectorFragment.Callback {
+    implements MultiImageSelectorFragment.Callback {
 
     private ArrayList<String> resultList = new ArrayList<>();
     @Bind(R.id.back) ImageView mBack;
@@ -81,6 +81,7 @@ public class MultiImageSelectorActivity extends BaseActivity
         SinglePicSelectedEvent event = new SinglePicSelectedEvent();
         event.path = path;
         EventBus.getDefault().post(event);
+        finish();
     }
 
     @Override
@@ -105,6 +106,4 @@ public class MultiImageSelectorActivity extends BaseActivity
             EventBus.getDefault().post(event);
         }
     }
-
-
 }

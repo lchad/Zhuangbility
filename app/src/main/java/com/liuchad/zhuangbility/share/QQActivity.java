@@ -33,7 +33,7 @@ public class QQActivity extends AppCompatActivity {
         final Bundle params = new Bundle();
         //本地地址一定要传sdcard路径，不要什么getCacheDir()或getFilesDir()
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL,
-            Environment.getExternalStorageDirectory().getAbsolutePath().concat("/a.png"));
+            Environment.getExternalStorageDirectory().getAbsolutePath().concat("/a.jpg"));
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "测试应用");
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
         params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN); //打开这句话，可以实现分享纯图到QQ空间
@@ -42,7 +42,7 @@ public class QQActivity extends AppCompatActivity {
 
     public void shareOnlyImageOnQQ(View view) {
         final Bundle params = new Bundle();
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, Environment.getExternalStorageDirectory().getAbsolutePath().concat("/a.png"));
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, Environment.getExternalStorageDirectory().getAbsolutePath().concat("/a.jpg"));
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "测试应用");
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
         //        params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, QQShare.SHARE_TO_QQ_FLAG_QZONE_AUTO_OPEN);

@@ -39,6 +39,7 @@
       android:persistent="true"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
+    <activity android:name=".ui.NativeAboutActivity"/>
     <activity
         android:name=".ui.MainActivity"
         android:configChanges="orientation|keyboardHidden"

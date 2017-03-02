@@ -44,4 +44,14 @@
   <string name="errcode_deny">发送被拒绝</string>
   <string name="errcode_unknown">发送返回</string>
   <string name="loading">加载中</string>
+  <string name="third_party_licence">查看 Zhuangbility 所使用的第三方库</string>
+  <string name="open_source_licence">开源库许可</string>
+  <string name="granted">授权</string>
+  <string name="zhuangbility_gplv3">查看Zhuangbility所使用的 GPLv3协议条款</string>
+  <string name="sina_weibo">新浪微博</string>
+  <string name="send_email">发送电子邮件</string>
+  <string name="my_intro">我是lchad，一个Android开发者，生活在上海，欢迎上海的老司机来一起开车</string>
+  <string name="developer">开发者 &amp; 设计者</string>
+  <string name="a_fantastic_software">一个强大的表情包生成器</string>
+  <string name="about">关于</string>
 </resources>

@@ -18,6 +18,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -71,6 +72,7 @@ public class MainActivity extends BaseActivity
         Color.parseColor("#333333"),    /*默认字体颜色*/
         Color.BLACK, Color.WHITE, Color.GRAY,
     };
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Bind(R.id.zhuangbi) ImageView mEmoji;
     @Bind(R.id.emoji_slogan) EditText mEmojiInputContent;
@@ -161,6 +163,9 @@ public class MainActivity extends BaseActivity
     }
 
     @Override protected void initView() {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.theme_light));
+        setSupportActionBar(toolbar);
+
         mTextPaint = new TextPaint();
         mTextPaint.setAntiAlias(true);
         mRectPaint = new Paint();
@@ -189,6 +194,7 @@ public class MainActivity extends BaseActivity
         mSelectFromGalery.setIconClickListener(this);
         mSaveToLocal.setIconClickListener(this);
         mSelectFromRecomend.setIconClickListener(this);
+        mEmoji.setOnClickListener(this);
     }
 
     @Override protected void initData() {
@@ -513,6 +519,9 @@ public class MainActivity extends BaseActivity
                     .setTitle(getString(R.string.quality_title))
                     .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
                     .show();
+                break;
+            case R.id.zhuangbi:
+                startActivity(new Intent(MainActivity.this, NativeAboutActivity.class));
                 break;
         }
     }

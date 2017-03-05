@@ -26,6 +26,8 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,7 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import butterknife.Bind;
+
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.R;
@@ -46,19 +48,23 @@ import com.liuchad.zhuangbility.event.SelectPicEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import com.liuchad.zhuangbility.util.CommonUtils;
 import com.liuchad.zhuangbility.widget.IconView;
-import in.workarounds.bundler.Bundler;
-import in.workarounds.bundler.annotations.RequireBundler;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import butterknife.Bind;
+import in.workarounds.bundler.Bundler;
+import in.workarounds.bundler.annotations.RequireBundler;
 import me.priyesh.chroma.ChromaDialog;
 import me.priyesh.chroma.ColorMode;
 import me.priyesh.chroma.ColorSelectListener;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 @RequireBundler
 public class MainActivity extends BaseActivity
@@ -194,7 +200,6 @@ public class MainActivity extends BaseActivity
         mSelectFromGalery.setIconClickListener(this);
         mSaveToLocal.setIconClickListener(this);
         mSelectFromRecomend.setIconClickListener(this);
-        mEmoji.setOnClickListener(this);
     }
 
     @Override protected void initData() {
@@ -520,9 +525,6 @@ public class MainActivity extends BaseActivity
                     .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
                     .show();
                 break;
-            case R.id.zhuangbi:
-                startActivity(new Intent(MainActivity.this, NativeAboutActivity.class));
-                break;
         }
     }
 
@@ -674,6 +676,37 @@ public class MainActivity extends BaseActivity
         int HIGH = 0;
         int LOW = 1;
         int PURE_TEXT = 2;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_theme:
+                Bundler.themeActivity().start(MainActivity.this);
+                break;
+            case R.id.action_save:
+//                Bundler.scrollingActivity().start(MainActivity.this);
+                Bundler.licenceActivity().start(MainActivity.this);
+                break;
+            case R.id.action_share:
+                Bundler.licenceActivity().start(MainActivity.this);
+                break;
+            case R.id.action_about:
+                Bundler.nativeAboutActivity().start(MainActivity.this);
+                break;
+            case R.id.action_donate:
+                Bundler.donateActivity().start(MainActivity.this);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

@@ -38,11 +38,11 @@
     </style>
 
     <declare-styleable name="IconView">
-        <attr format="reference" name="img"/>
-        <attr format="reference" name="img_press"/>
-        <attr format="string" name="text"/>
-        <attr format="dimension|reference" name="textMargin"/>
-        <attr format="integer" name="titleTextSize"/>
+        <attr name="img" format="reference"/>
+        <attr name="img_press" format="reference"/>
+        <attr name="text" format="string"/>
+        <attr name="textMargin" format="dimension|reference"/>
+        <attr name="titleTextSize" format="integer"/>
     </declare-styleable>
 
     <style name="separator_title_style">
@@ -50,6 +50,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1px</item>
     </style>
+
 
     <style name="MyToolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:layout_width">match_parent</item>
@@ -64,4 +65,13 @@
         <item name="colorControlNormal">#FFF</item>
         <item name="colorControlHighlight">#FFF</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

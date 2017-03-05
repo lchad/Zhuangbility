@@ -5,19 +5,23 @@ import com.liuchad.zhuangbility.base.BaseActivity;
 
 public class HistoryActivity extends BaseActivity {
 
-    @Override protected int getLayoutId() {
+    @Override
+    protected int getLayoutId() {
         return R.layout.activity_history;
     }
 
-    @Override protected void initInjector() {
+    @Override
+    protected void initInjector() {
 
     }
 
-    @Override protected void initView() {
+    @Override
+    protected void initView() {
 
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
 
     }
 }

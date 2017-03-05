@@ -698,7 +698,7 @@ public class MainActivity extends BaseActivity
                 Bundler.licenceActivity().start(MainActivity.this);
                 break;
             case R.id.action_about:
-                Bundler.nativeAboutActivity().start(MainActivity.this);
+                Bundler.scrollingActivity().start(MainActivity.this);
                 break;
             case R.id.action_donate:
                 Bundler.donateActivity().start(MainActivity.this);

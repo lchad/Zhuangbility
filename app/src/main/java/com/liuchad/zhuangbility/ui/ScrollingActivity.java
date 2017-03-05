@@ -1,5 +1,11 @@
 package com.liuchad.zhuangbility.ui;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -7,21 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 
 import butterknife.Bind;
-import in.workarounds.bundler.Bundler;
 import in.workarounds.bundler.annotations.RequireBundler;
 
 @RequireBundler
-public class NativeAboutActivity extends BaseActivity implements View.OnClickListener {
+public class ScrollingActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbarLayout;
+    @Bind(R.id.app_bar)
+    AppBarLayout mAppBar;
     @Bind(R.id.about_app_title)
     TextView mAboutAppTitle;
     @Bind(R.id.about_app_light_description)
@@ -70,19 +78,17 @@ public class NativeAboutActivity extends BaseActivity implements View.OnClickLis
     LinearLayout mLlAboutLibs;
     @Bind(R.id.about_license_card)
     CardView mAboutLicenseCard;
-    @Bind(R.id.about_scrollView)
-    ScrollView mAboutScrollView;
-    @Bind(R.id.about_background)
-    LinearLayout mAboutBackground;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_native_about;
+        return R.layout.activity_scrolling;
     }
 
     @Override
     protected void initInjector() {
-        Bundler.inject(this);
+
     }
 
     @Override
@@ -97,6 +103,14 @@ public class NativeAboutActivity extends BaseActivity implements View.OnClickLis
             }
         });
         mToolbar.setTitle(R.string.about);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
         mAboutSinaWeibo.setOnClickListener(this);
         mAboutGithub.setOnClickListener(this);
         mAboutZhihu.setOnClickListener(this);
@@ -112,26 +126,37 @@ public class NativeAboutActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case R.id.about_sina_weibo:
-//                gotoUrl(WEIBO_URL);
-//                break;
-//            case R.id.about_zhihu:
-//                gotoUrl(ZHIHU_URL);
-//                break;
-//            case R.id.about_github:
-//                gotoUrl(GITHUB_URL);
-//                break;
-//            case R.id.about_mail:
-//                sendMail();
-//                break;
-//            case R.id.ll_about_libs:
-//                showLicenceDialog();
-//                break;
+            case R.id.about_sina_weibo:
+                gotoUrl(WEIBO_URL);
+                break;
+            case R.id.about_zhihu:
+                gotoUrl(ZHIHU_URL);
+                break;
+            case R.id.about_github:
+                gotoUrl(GITHUB_URL);
+                break;
+            case R.id.about_mail:
+                sendMail();
+                break;
+            case R.id.ll_about_libs:
+                showLicenceDialog();
+                break;
         }
     }
 
     private void showLicenceDialog() {
 
+    }
+
+    private void gotoUrl(String url) {
+        Uri uri = Uri.parse(url);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    private void sendMail() {
+        Intent data = new Intent(Intent.ACTION_SENDTO);
+        data.setData(Uri.parse("mailto:liuchad@outlook.com"));
+        startActivity(data);
     }
 
     @Override

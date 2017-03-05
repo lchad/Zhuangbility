@@ -21,8 +21,10 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.Toast;
+
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.base.App;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -337,4 +339,16 @@ public class CommonUtils {
         values.put(MediaStore.Images.Media.MIME_TYPE, Constants.IMAGE_JPEG);
         context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
+
+    public static void gotoUrl(Context context, String url) {
+        Uri uri = Uri.parse(url);
+        context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    public static void sendMail(Context context) {
+        Intent data = new Intent(Intent.ACTION_SENDTO);
+        data.setData(Uri.parse("mailto:liuchad@outlook.com"));
+        context.startActivity(data);
+    }
+
 }

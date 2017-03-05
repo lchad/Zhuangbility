@@ -15,7 +15,7 @@
       android:windowActionBarOverlay="true"
       />
   <ScrollView
-      android:id="@+id/aboutAct_scrollView"
+      android:id="@+id/about_scrollView"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:scrollbarSize="4dp"
@@ -49,12 +49,6 @@
               android:layout_height="wrap_content"
               >
             <ImageView
-                android:id="@+id/leafpic_header"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                />
-            <ImageView
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_alignParentTop="true"
@@ -70,7 +64,7 @@
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:padding="@dimen/sub_small_spacing"
-              android:text="Zhuangbility"
+              android:text="@string/app_name"
               android:textColor="@color/theme_light"
               android:textSize="@dimen/big_text"
               android:textStyle="bold"
@@ -81,16 +75,16 @@
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:padding="@dimen/sub_small_spacing"
-              android:text="@string/a_fantastic_software"
+              android:text="@string/intro"
               android:textSize="@dimen/medium_text"
               />
           <TextView
-              android:id="@+id/about_version_item_sub"
+              android:id="@+id/about_version"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="center"
               android:padding="@dimen/sub_small_spacing"
-              android:text="v1.0.1"
+              android:text="@string/version"
               android:textColor="@color/md_grey_400"
               android:textSize="@dimen/medium_text"
               />
@@ -125,7 +119,7 @@
                 android:scaleType="centerCrop"
                 />
             <ImageView
-                android:id="@+id/donald_profile_img"
+                android:id="@+id/profile_img"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_marginLeft="20dp"
@@ -137,36 +131,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="158dp"
-                android:layout_toRightOf="@id/donald_profile_img"
+                android:layout_toRightOf="@id/profile_img"
                 android:orientation="vertical"
                 >
               <TextView
-                  android:id="@+id/donald_shtjefni"
+                  android:id="@+id/lchad"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="lchad"
+                  android:text="@string/lchad"
                   android:textSize="@dimen/sub_big_text"
                   android:textStyle="bold"
                   />
 
               <TextView
-                  android:id="@+id/donald_shtjefni_role"
+                  android:id="@+id/lchad_role"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/developer"
+                  android:text="@string/developer_title"
                   android:textSize="@dimen/medium_text"
                   />
 
             </LinearLayout>
           </RelativeLayout>
           <TextView
-              android:id="@+id/donald_description"
+              android:id="@+id/lchad_description"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginLeft="@dimen/sub_big_spacing"
               android:layout_marginRight="@dimen/sub_big_spacing"
               android:layout_marginTop="@dimen/sub_big_spacing"
-              android:text="@string/my_intro"
+              android:text="@string/lchad_android"
               android:textSize="@dimen/sub_medium_text"
               />
           <!--DONALD LINKS  -->
@@ -177,16 +171,30 @@
               android:padding="@dimen/sub_medium_spacing"
               >
             <TextView
-                android:id="@+id/about_author_donald_mail_item"
+                android:id="@+id/about_mail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple"
                 android:clickable="true"
                 android:padding="@dimen/sub_medium_spacing"
-                android:text="@string/send_email"
+                android:text="@string/send_mail"
+                android:textColor="@color/theme_light"
                 android:textSize="@dimen/medium_text"
                 android:textStyle="bold"
                 />
+
+            <TextView
+                android:id="@+id/about_github"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple"
+                android:clickable="true"
+                android:padding="@dimen/sub_medium_spacing"
+                android:text="@string/github"
+                android:textColor="@color/theme_light"
+                android:textSize="@dimen/medium_text"
+                />
+
             <TextView
                 android:id="@+id/about_sina_weibo"
                 android:layout_width="wrap_content"
@@ -195,16 +203,20 @@
                 android:clickable="true"
                 android:padding="@dimen/sub_medium_spacing"
                 android:text="@string/sina_weibo"
+                android:textColor="@color/theme_light"
                 android:textSize="@dimen/medium_text"
                 />
+
+
             <TextView
-                android:id="@+id/about_github"
+                android:id="@+id/about_zhihu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ripple"
                 android:clickable="true"
                 android:padding="@dimen/sub_medium_spacing"
-                android:text="GITHUB"
+                android:text="@string/zhihu"
+                android:textColor="@color/theme_light"
                 android:textSize="@dimen/medium_text"
                 />
           </LinearLayout>
@@ -233,8 +245,8 @@
               android:layout_height="wrap_content"
               android:paddingLeft="@dimen/medium_spacing"
               android:paddingTop="@dimen/medium_spacing"
-              android:text="Lisence"
-              android:textColor="@color/md_dark_background"
+              android:text="@string/open_source_licence"
+              android:textColor="@color/theme_light"
               android:textSize="@dimen/medium_text"
               android:textStyle="bold"
               />
@@ -254,7 +266,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/big_spacing"
                 android:layout_marginRight="@dimen/big_spacing"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/ic_action_book"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -268,7 +280,7 @@
                   android:id="@+id/about_license_item"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/granted"
+                  android:text="@string/licence"
                   android:textColor="@color/md_dark_background"
                   android:textSize="@dimen/medium_text"
                   />
@@ -276,7 +288,7 @@
                   android:id="@+id/about_license_item_sub"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/zhuangbility_gplv3"
+                  android:text="@string/zhuangbility_apache"
                   android:textColor="@color/md_grey_400"
                   android:textSize="@dimen/sub_medium_text"
                   />
@@ -299,7 +311,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/big_spacing"
                 android:layout_marginRight="@dimen/big_spacing"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/ic_action_book"
                 />
             <LinearLayout
                 android:layout_width="match_parent"

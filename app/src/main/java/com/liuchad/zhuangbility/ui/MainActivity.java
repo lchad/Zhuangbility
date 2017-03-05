@@ -547,12 +547,6 @@ public class MainActivity extends BaseActivity
                     shareToFriends(Constants.WECHAT_SEND_ACTIVITY, Constants.WECHAT_PACKAGE_NAME);
                 }
                 break;
-            case R.id.save_to_local:
-                String filename = getFormatFileName(mPicMode);
-                if (mComposedEmoji != null) {
-                    saveNewEmojiToSdCard(filename, mComposedEmoji);
-                }
-                break;
             case R.id.select_from_galery:
                 Bundler.multiImageSelectorActivity(Mode.MODE_SINGLE, true).start(MainActivity.this);
                 break;
@@ -691,17 +685,19 @@ public class MainActivity extends BaseActivity
                 Bundler.themeActivity().start(MainActivity.this);
                 break;
             case R.id.action_save:
-//                Bundler.scrollingActivity().start(MainActivity.this);
-                Bundler.licenceActivity().start(MainActivity.this);
+                String filename = getFormatFileName(mPicMode);
+                if (mComposedEmoji != null) {
+                    saveNewEmojiToSdCard(filename, mComposedEmoji);
+                }
                 break;
             case R.id.action_share:
                 Bundler.licenceActivity().start(MainActivity.this);
                 break;
             case R.id.action_about:
-                Bundler.scrollingActivity().start(MainActivity.this);
+                Bundler.aboutActivity().start(MainActivity.this);
                 break;
             case R.id.action_donate:
-                Bundler.donateActivity().start(MainActivity.this);
+//                Bundler.donateActivity().start(MainActivity.this);
                 break;
             default:
                 break;

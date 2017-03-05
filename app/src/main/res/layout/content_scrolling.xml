@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.liuchad.zhuangbility.ui.ScrollingActivity"
+    tools:context="com.liuchad.zhuangbility.ui.AboutActivity"
     tools:showIn="@layout/activity_scrolling">
 
     <LinearLayout
@@ -123,7 +123,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="105dp"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/profile_github"
                         />
 
                     <LinearLayout

@@ -22,7 +22,7 @@ import butterknife.Bind;
 import in.workarounds.bundler.annotations.RequireBundler;
 
 @RequireBundler
-public class ScrollingActivity extends BaseActivity implements View.OnClickListener {
+public class AboutActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;

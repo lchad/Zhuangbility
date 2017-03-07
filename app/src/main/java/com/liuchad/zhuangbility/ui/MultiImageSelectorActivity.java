@@ -4,12 +4,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import butterknife.Bind;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
+
+import butterknife.BindView;
 import in.workarounds.bundler.Bundler;
 import in.workarounds.bundler.annotations.Arg;
 import in.workarounds.bundler.annotations.RequireBundler;
@@ -23,7 +24,7 @@ public class MultiImageSelectorActivity extends BaseActivity
     implements MultiImageSelectorFragment.Callback {
 
     private ArrayList<String> resultList = new ArrayList<>();
-    @Bind(R.id.back) ImageView mBack;
+    @BindView(R.id.back) ImageView mBack;
 
     public @Arg @Required() int selectMode;
     public @Arg @Required(false) int maxSelectCount = 10;

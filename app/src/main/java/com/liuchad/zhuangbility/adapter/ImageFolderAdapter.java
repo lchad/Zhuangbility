@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.liuchad.zhuangbility.R;
@@ -110,10 +111,10 @@ public class ImageFolderAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        @Bind(R.id.cover) ImageView cover;
-        @Bind(R.id.name) TextView name;
-        @Bind(R.id.size) TextView size;
-        @Bind(R.id.indicator) ImageView indicator;
+        @BindView(R.id.cover) ImageView cover;
+        @BindView(R.id.name) TextView name;
+        @BindView(R.id.size) TextView size;
+        @BindView(R.id.indicator) ImageView indicator;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

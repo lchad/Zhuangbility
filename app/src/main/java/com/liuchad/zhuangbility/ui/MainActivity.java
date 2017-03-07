@@ -59,7 +59,7 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import in.workarounds.bundler.Bundler;
@@ -80,34 +80,34 @@ public class MainActivity extends BaseActivity
         Color.parseColor("#333333"),    /*默认字体颜色*/
         Color.BLACK, Color.WHITE, Color.GRAY,
     };
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    @Bind(R.id.zhuangbi) ImageView mEmoji;
-    @Bind(R.id.emoji_slogan) EditText mEmojiInputContent;
-    @Bind(R.id.text_size_progress) SeekBar mTextSizeProgress;
-    @Bind(R.id.text_mask_progress) SeekBar mTextMaskProgress;
-    @Bind(R.id.text_direction_bottom) RadioButton mTextDirectionBottom;
-    @Bind(R.id.text_direction_up) RadioButton mTextDirectionUp;
-    @Bind(R.id.text_inside_pic) RadioButton mTextInsidePic;
-    @Bind(R.id.text_beyond_pic) RadioButton mTextBeyondPic;
-    @Bind(R.id.higher_quality) RadioButton mHigherQuality;
-    @Bind(R.id.lower_quality) RadioButton mLowerQuality;
-    @Bind(R.id.pure_text) RadioButton mPureText;
-    @Bind(R.id.bold) CheckBox mBold;
-    @Bind(R.id.italic) CheckBox mItalic;
-    @Bind(R.id.black) RadioButton mBlack;
-    @Bind(R.id.white) RadioButton mWhite;
-    @Bind(R.id.gray) RadioButton mGray;
-    @Bind(R.id.default_color) RadioButton mDefaultColor;
-    @Bind(R.id.color_picker) ImageView mColorPicker;
-    @Bind(R.id.text_color_rg) RadioGroup mTextColorRg;
-    @Bind(R.id.tips_quality) Button mTipsQuality;
-    @Bind(R.id.share_to_qq) IconView mShareToQQ;
-    @Bind(R.id.share_to_wechat) IconView mShareToWeChat;
-    @Bind(R.id.save_to_local) IconView mSaveToLocal;
-    @Bind(R.id.select_from_galery) IconView mSelectFromGalery;
-    @Bind(R.id.select_from_recomend) IconView mSelectFromRecomend;
-    @Bind(R.id.options_container) LinearLayout mOptionContainer;
+    @BindView(R.id.zhuangbi) ImageView mEmoji;
+    @BindView(R.id.emoji_slogan) EditText mEmojiInputContent;
+    @BindView(R.id.text_size_progress) SeekBar mTextSizeProgress;
+    @BindView(R.id.text_mask_progress) SeekBar mTextMaskProgress;
+    @BindView(R.id.text_direction_bottom) RadioButton mTextDirectionBottom;
+    @BindView(R.id.text_direction_up) RadioButton mTextDirectionUp;
+    @BindView(R.id.text_inside_pic) RadioButton mTextInsidePic;
+    @BindView(R.id.text_beyond_pic) RadioButton mTextBeyondPic;
+    @BindView(R.id.higher_quality) RadioButton mHigherQuality;
+    @BindView(R.id.lower_quality) RadioButton mLowerQuality;
+    @BindView(R.id.pure_text) RadioButton mPureText;
+    @BindView(R.id.bold) CheckBox mBold;
+    @BindView(R.id.italic) CheckBox mItalic;
+    @BindView(R.id.black) RadioButton mBlack;
+    @BindView(R.id.white) RadioButton mWhite;
+    @BindView(R.id.gray) RadioButton mGray;
+    @BindView(R.id.default_color) RadioButton mDefaultColor;
+    @BindView(R.id.color_picker) ImageView mColorPicker;
+    @BindView(R.id.text_color_rg) RadioGroup mTextColorRg;
+    @BindView(R.id.tips_quality) Button mTipsQuality;
+    @BindView(R.id.share_to_qq) IconView mShareToQQ;
+    @BindView(R.id.share_to_wechat) IconView mShareToWeChat;
+    @BindView(R.id.save_to_local) IconView mSaveToLocal;
+    @BindView(R.id.select_from_galery) IconView mSelectFromGalery;
+    @BindView(R.id.select_from_recomend) IconView mSelectFromRecomend;
+    @BindView(R.id.options_container) LinearLayout mOptionContainer;
 
     /** 要增加的文字 */
     String mEmojiText = "";

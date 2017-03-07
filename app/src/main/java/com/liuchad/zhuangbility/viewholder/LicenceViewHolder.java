@@ -9,7 +9,7 @@ import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.adapter.LicenceAdapter;
 import com.liuchad.zhuangbility.util.CommonUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
  */
 
 public class LicenceViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.title)
+    @BindView(R.id.title)
     TextView mTitle;
-    @Bind(R.id.detail)
+    @BindView(R.id.detail)
     TextView mDetail;
-    @Bind(R.id.card_view)
+    @BindView(R.id.card_view)
     CardView mCardView;
 
     private LicenceAdapter.LicenceModel mLicenceModel;

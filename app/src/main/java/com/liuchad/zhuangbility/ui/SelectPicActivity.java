@@ -6,18 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import butterknife.Bind;
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
+
+import butterknife.BindView;
 import in.workarounds.bundler.annotations.RequireBundler;
 import org.greenrobot.eventbus.EventBus;
 
 @RequireBundler
 public class SelectPicActivity extends BaseActivity {
 
-    @Bind(R.id.recyclerview) RecyclerView mRecyclerView;
-    @Bind(R.id.back) ImageView mBack;
+    @BindView(R.id.recyclerview) RecyclerView mRecyclerView;
+    @BindView(R.id.back) ImageView mBack;
 
     @Override protected int getLayoutId() {
         return R.layout.activity_select_pic;

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.liuchad.zhuangbility.R;
@@ -165,9 +165,9 @@ public class ImageGridAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        @Bind(R.id.image) ImageView image;
-        @Bind(R.id.checkmark) ImageView ivCheckBox;
-        @Bind(R.id.mask) View mask;
+        @BindView(R.id.image) ImageView image;
+        @BindView(R.id.checkmark) ImageView ivCheckBox;
+        @BindView(R.id.mask) View mask;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

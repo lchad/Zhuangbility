@@ -9,16 +9,16 @@ import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.adapter.LicenceAdapter;
 import com.liuchad.zhuangbility.base.BaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import in.workarounds.bundler.Bundler;
 import in.workarounds.bundler.annotations.RequireBundler;
 
 @RequireBundler
 public class LicenceActivity extends BaseActivity {
 
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     private LicenceAdapter mLicenceAdapter;

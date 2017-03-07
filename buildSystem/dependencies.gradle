@@ -1,0 +1,102 @@
+ext {
+
+    bundlerVersion = "0.1.1"
+    butterKnifeVersion = "8.4.0"
+    eventBusVersion = "3.0.0"
+    supportVersion = "25.2.0"
+    switchButtonVersion = "1.4.4"
+    eventBusVersion = "3.0.0"
+    gsonVersion = "2.8.0"
+    zOkhttpVersion = "2.6.2"
+    zxingVersion = "3.2.0"
+    loggerVersion = "1.15"
+    statusVersion = "2.1.1"
+    stethoVersion = "1.4.1"
+    rxVersion = "2.0.1"
+    leakCanaryVersion = "1.5"
+    daggerVersion = "2.8"
+    retrofitVersion = "2.2.0"
+    statusBarVersion = "2.1.1"
+    daggerVersion = "2.8"
+    rxLifecycleVersion = "1.0"
+    //RxBinding
+    rxbindingVersion = "0.4.0"
+    //圆角图片
+    roundedimageviewVersion = "2.2.1"
+    //materialDesign风格的输入框控件
+    materialedittextVersion = "2.1.5-beta6"
+    //material风格dialog控件
+    materialDialogsVersion = "0.7.8.1"
+    //materialProgressbar
+    materialProgressbarVersion = "1.1.6"
+    //浮动按钮
+    floatingactionbuttonVersion = "1.10.1"
+    //展开/折叠RecyclerView
+    expandablerecyclerviewVersion = "1.0.4"
+    //glide
+    glideVersion = "3.7.0"
+    //picasso
+    picassoVersion = "2.5.2"
+    //电话号码验证
+    phonenumberVersion = "7.4.0"
+    //加载大图
+    scaleImageVersion = "3.5.0"
+    //底部抽屉
+    bottomsheetVersion = "1.+@aar"
+    //日期时间选择
+    sublimepickerlibraryVersion = "1.0"
+    // 首字母悬挂
+    pinnedsctionVersion = "1.1.1"
+
+    gifDrawableVersion = "1.2.2"
+
+    dependencies = [
+            statusBar             : "com.github.niorgai:StatusBarCompat:$statusBarVersion",
+            bundler               : "in.workarounds.bundler:bundler-annotations:$bundlerVersion",
+            bundlerCompiler       : "in.workarounds.bundler:bundler-compiler:$bundlerVersion",
+            butterKnife           : "com.jakewharton:butterknife:$butterKnifeVersion",
+            butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
+            switchButton          : "com.kyleduo.switchbutton:library:$switchButtonVersion",
+            recyclerView          : "com.android.support:recyclerview-v7:$supportVersion",
+            supportV4             : "com.android.support:support-v4:$supportVersion",
+            cardview              : "com.android.support:cardview-v7:$supportVersion",
+            supportDesign         : "com.android.support:design:$supportVersion",
+            okHttpUtils           : "com.zhy:okhttputils:$zOkhttpVersion",
+            eventBus              : "org.greenrobot:eventbus:$eventBusVersion",
+            zxingEmbedded         : "com.journeyapps:zxing-android-embedded:3.0.2@aar",
+            zxingCore             : "com.google.zxing:core:$zxingVersion",
+            gson                  : "com.google.code.gson:gson:$gsonVersion",
+            logger                : "com.orhanobut:logger:$loggerVersion",
+            stetho                : "com.facebook.stetho:stetho:$stethoVersion",
+            leakCanary            : "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
+            leakCanaryNoop        : "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
+
+            dagger                : "com.google.dagger:dagger:$daggerVersion",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
+            retrofit              : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            rxLifecycle           : "com.trello:rxlifecycle:$rxLifecycleVersion",
+            rxandroid             : "io.reactivex.rxjava2:rxandroid:$rxVersion",
+            rxjava                : "io.reactivex.rxjava2:rxjava:$rxVersion",
+            rxbinding             : "com.jakewharton.rxbinding:rxbinding:${rxbindingVersion}",
+            rxbindingV4           : "com.jakewharton.rxbinding:rxbinding-support-v4:${rxbindingVersion}",
+            rxbindingV7           : "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxbindingVersion}",
+            rxbindingDesign       : "com.jakewharton.rxbinding:rxbinding-design:${rxbindingVersion}",
+            rxbindingRecycleView  : "com.jakewharton.rxbinding:rxbinding-recyclerview-v7:${rxbindingVersion}",
+            roundedimageview      : "com.makeramen:roundedimageview:${roundedimageviewVersion}",
+            materialedittext      : "com.github.david-wei:MaterialEditText:${materialedittextVersion}",
+            phonenumber           : "com.googlecode.libphonenumber:libphonenumber:${phonenumberVersion}",
+            glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
+            picasso               : "com.squareup.picasso:picasso:${picassoVersion}",
+            bottomsheet           : "com.cocosw:bottomsheet:${bottomsheetVersion}",
+
+            retrofitGsonConverter : "com.squareup.retrofit2:converter-gson:2.0.0",
+            retrofitAdapter       : "com.squareup.retrofit2:adapter-rxjava:2.0.0",
+            supportAnnotations    : "com.android.support:support-annotations:25.0.0",
+            materialTypeface      : "com.mikepenz:google-material-typeface:2.2.0.3.original@aar",
+            gifDrawable           : "pl.droidsonroids.gif:android-gif-drawable:$gifDrawableVersion",
+            okHttp                : "com.squareup.okhttp3:okhttp:3.2.0",
+            chrome                : "me.priyesh:chroma:1.0.2",
+            appCompat             : "com.android.support:appcompat-v7:25.0.0",
+    ]
+
+}

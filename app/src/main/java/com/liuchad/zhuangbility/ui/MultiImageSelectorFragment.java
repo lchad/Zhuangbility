@@ -28,7 +28,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import butterknife.Bind;
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
@@ -38,6 +37,8 @@ import com.liuchad.zhuangbility.base.BaseFragment;
 import com.liuchad.zhuangbility.util.CommonUtils;
 import com.liuchad.zhuangbility.vo.ImageFile;
 import com.liuchad.zhuangbility.vo.ImageFolder;
+
+import butterknife.BindView;
 import in.workarounds.bundler.Bundler;
 import in.workarounds.bundler.annotations.Arg;
 import in.workarounds.bundler.annotations.RequireBundler;
@@ -63,14 +64,14 @@ public class MultiImageSelectorFragment extends BaseFragment {
     public @Arg @Required() boolean showCamera;
 
     // 图片Grid
-    public @Bind(R.id.grid) GridView mGridView;
-    public @Bind(R.id.view_shadow_bg) View mViewShadowBg;
+    public @BindView(R.id.grid) GridView mGridView;
+    public @BindView(R.id.view_shadow_bg) View mViewShadowBg;
     // 类别
-    public @Bind(R.id.category_btn) TextView mCategoryText;
+    public @BindView(R.id.category_btn) TextView mCategoryText;
     // 预览按钮
-    public @Bind(R.id.preview) Button mPreviewBtn;
+    public @BindView(R.id.preview) Button mPreviewBtn;
     // 底部View
-    public @Bind(R.id.footer) View mPopupAnchorView;
+    public @BindView(R.id.footer) View mPopupAnchorView;
 
     // 结果数据
     private ArrayList<String> resultList = new ArrayList<>();

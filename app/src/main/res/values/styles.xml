@@ -60,7 +60,7 @@
 
     </style>
 
-    <style name="MyToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="MyToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textColorPrimary">#FFF</item>
         <item name="colorControlNormal">#FFF</item>
         <item name="colorControlHighlight">#FFF</item>

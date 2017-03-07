@@ -97,6 +97,7 @@ ext {
             okHttp                : "com.squareup.okhttp3:okhttp:3.2.0",
             chrome                : "me.priyesh:chroma:1.0.2",
             appCompat             : "com.android.support:appcompat-v7:25.0.0",
+            jsoup                 : "org.jsoup:jsoup:1.10.2"
     ]
 
 }

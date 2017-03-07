@@ -34,32 +34,36 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile rootProject.ext.dependencies.eventBus
-    compile rootProject.ext.dependencies.bundler
-    annotationProcessor rootProject.ext.dependencies.bundlerCompiler
-    compile rootProject.ext.dependencies.butterKnife
-    annotationProcessor rootProject.ext.dependencies.butterKnifeCompiler
-    debugCompile rootProject.ext.dependencies.leakCanary
-    releaseCompile rootProject.ext.dependencies.leakCanaryNoop
-    testCompile rootProject.ext.dependencies.leakCanaryNoop
-    compile rootProject.ext.dependencies.stetho
-    compile rootProject.ext.dependencies.logger
-    compile rootProject.ext.dependencies.recyclerView
-    compile rootProject.ext.dependencies.supportV4
-    compile rootProject.ext.dependencies.cardview
-    compile rootProject.ext.dependencies.supportDesign
-    compile rootProject.ext.dependencies.statusBar
-    compile rootProject.ext.dependencies.rxandroid
-    compile rootProject.ext.dependencies.rxjava
-    compile rootProject.ext.dependencies.retrofit
-    compile rootProject.ext.dependencies.retrofitAdapter
-    compile rootProject.ext.dependencies.retrofitGsonConverter
-    compile rootProject.ext.dependencies.glide
-    compile rootProject.ext.dependencies.supportAnnotations
-    compile rootProject.ext.dependencies.materialTypeface
-    compile rootProject.ext.dependencies.gifDrawable
-    compile rootProject.ext.dependencies.okHttp
-    compile rootProject.ext.dependencies.chrome
-    compile rootProject.ext.dependencies.appCompat
+
+    def app = rootProject.ext.dependencies
+    
+    annotationProcessor app.bundlerCompiler
+    compile app.butterKnife
+    annotationProcessor app.butterKnifeCompiler
+    debugCompile app.leakCanary
+    releaseCompile app.leakCanaryNoop
+    testCompile app.leakCanaryNoop
+    compile app.eventBus
+    compile app.bundler
+    compile app.stetho
+    compile app.logger
+    compile app.recyclerView
+    compile app.supportV4
+    compile app.cardview
+    compile app.supportDesign
+    compile app.statusBar
+    compile app.rxandroid
+    compile app.rxjava
+    compile app.retrofit
+    compile app.retrofitAdapter
+    compile app.retrofitGsonConverter
+    compile app.glide
+    compile app.supportAnnotations
+    compile app.materialTypeface
+    compile app.gifDrawable
+    compile app.okHttp
+    compile app.chrome
+    compile app.appCompat
+    compile app.jsoup
 
 }

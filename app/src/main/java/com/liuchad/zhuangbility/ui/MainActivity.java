@@ -721,13 +721,13 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.action_share:
-                Bundler.licenceActivity().start(MainActivity.this);
+                showShare();
                 break;
             case R.id.action_about:
                 Bundler.aboutActivity().start(MainActivity.this);
                 break;
             case R.id.action_donate:
-//                Bundler.donateActivity().start(MainActivity.this);
+                Bundler.donateActivity().start(MainActivity.this);
                 break;
             default:
                 break;

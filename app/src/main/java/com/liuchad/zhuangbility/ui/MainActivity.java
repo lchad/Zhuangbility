@@ -70,15 +70,15 @@ import me.priyesh.chroma.ColorSelectListener;
 
 @RequireBundler
 public class MainActivity extends BaseActivity
-    implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-    IconView.IconClickListener {
+        implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener,
+        IconView.IconClickListener {
 
     public final int REQUEST_SELECT_PIC = 101;
     private static final int REQUEST_CODE_CAMERA_CROP = 103;
 
-    private static final int[] defaultFontColors = new int[] {
-        Color.parseColor("#333333"),    /*默认字体颜色*/
-        Color.BLACK, Color.WHITE, Color.GRAY,
+    private static final int[] defaultFontColors = new int[]{
+            Color.parseColor("#333333"),    /*默认字体颜色*/
+            Color.BLACK, Color.WHITE, Color.GRAY,
     };
     @BindView(R.id.toolbar) Toolbar toolbar;
 
@@ -109,29 +109,41 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.select_from_recomend) IconView mSelectFromRecomend;
     @BindView(R.id.options_container) LinearLayout mOptionContainer;
 
-    /** 要增加的文字 */
+    /**
+     * 要增加的文字
+     */
     String mEmojiText = "";
 
     private Bitmap mBitmapFromFile;
 
-    /** 原图的Bitmap */
+    /**
+     * 原图的Bitmap
+     */
     @SuppressWarnings("FieldCanBeLocal") private Bitmap mOriginalEmoji;
 
-    /** 修改之后的图片的Bitmap */
+    /**
+     * 修改之后的图片的Bitmap
+     */
     private Bitmap mComposedEmoji;
 
     private boolean mIsTextInside = false;
     private boolean mIsTextBottom = true;
 
-    /** 默认的文字晕影值 */
+    /**
+     * 默认的文字晕影值
+     */
     private int mMaskValue = 3;
 
     private int mTextSize = 40;
 
-    /** 选择颜色值的下标 */
+    /**
+     * 选择颜色值的下标
+     */
     private int mTextPaintColorIndex = 0;
 
-    /** 颜色选择器设置的颜色值 */
+    /**
+     * 颜色选择器设置的颜色值
+     */
     private int mColorPicked = -1;
 
     private int mFontStyle = 0;
@@ -139,66 +151,62 @@ public class MainActivity extends BaseActivity
     private Paint mRectPaint;
     private Canvas mCanvas;
 
-    /** 默认的素材图片资源id */
+    /**
+     * 默认的素材图片资源id
+     */
     private int mDefaultEmojiId = R.drawable.kt2;
 
-    /** (高清/祖传)模式标志位 */
+    /**
+     * (高清/祖传)模式标志位
+     */
     private int mPicMode = QuantityMode.HIGH;
 
     private int screenWidth;
 
-    private String[] modeStringArray = { Constants.GAOQING, Constants.ZUCHUAN, Constants.PURE_TEXT };
+    private String[] modeStringArray = {Constants.GAOQING, Constants.ZUCHUAN, Constants.PURE_TEXT};
 
     private TextWatcher mContentTextWatcher = new TextWatcher() {
-        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
             mEmojiText = s.toString();
             doInvalidateCanvas();
         }
 
-        @Override public void afterTextChanged(Editable s) {
+        @Override
+        public void afterTextChanged(Editable s) {
         }
     };
 
-    @Override protected int getLayoutId() {
+    @Override
+    protected int getLayoutId() {
         return R.layout.activity_main;
     }
 
-    @Override protected void initInjector() {
+    @Override
+    protected void initInjector() {
         Bundler.inject(this);
         ShareSDK.initSDK(MainActivity.this, Constants.MOB_KEY);
     }
 
-    private void showShare() {
-        ShareSDK.initSDK(this);
-        OnekeyShare oks = new OnekeyShare();
-//关闭sso授权
-        oks.disableSSOWhenAuthorize();
+    private OnekeyShare mOnekeyShare;
 
-// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间等使用
-        oks.setTitle("标题");
-// titleUrl是标题的网络链接，QQ和QQ空间等使用
-        oks.setTitleUrl("http://sharesdk.cn");
-// text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
-// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-// url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
-// comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
-// site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-// siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
+    private void showShare(String imagePath) {
+        if (mOnekeyShare == null) {
+            mOnekeyShare = new OnekeyShare();
+        }
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        mOnekeyShare.setImagePath(imagePath);//确保SDcard下面存在此张图片
 
-// 启动分享GUI
-        oks.show(this);
+        // 启动分享GUI
+        mOnekeyShare.show(this);
     }
 
-    @Override protected void initView() {
+    @Override
+    protected void initView() {
         toolbar.setBackgroundColor(getResources().getColor(R.color.theme_light));
         setSupportActionBar(toolbar);
 
@@ -232,12 +240,14 @@ public class MainActivity extends BaseActivity
         mSelectFromRecomend.setIconClickListener(this);
     }
 
-    @Override protected void initData() {
+    @Override
+    protected void initData() {
         EventBus.getDefault().register(this);
         screenWidth = CommonUtils.getScreenWidth(MainActivity.this);
     }
 
-    @Override public void reportFullyDrawn() {
+    @Override
+    public void reportFullyDrawn() {
         super.reportFullyDrawn();
     }
 
@@ -252,7 +262,7 @@ public class MainActivity extends BaseActivity
         }
         //输入文字的总高度(包括换行)
         int extraTextAreaHeight =
-            ((int) Math.ceil(textTotalWidth / mOriginalEmoji.getWidth())) * (int) ((mTextSize) * 1.2);
+                ((int) Math.ceil(textTotalWidth / mOriginalEmoji.getWidth())) * (int) ((mTextSize) * 1.2);
 
         Typeface font = Typeface.create(Typeface.SANS_SERIF, mFontStyle);
 
@@ -267,9 +277,9 @@ public class MainActivity extends BaseActivity
         mRectPaint.setStyle(Paint.Style.FILL);
 
         mComposedEmoji = Bitmap.createBitmap(
-            mOriginalEmoji.getWidth(),
-            mIsTextInside ? mOriginalEmoji.getHeight() : mOriginalEmoji.getHeight() + extraTextAreaHeight,
-            Bitmap.Config.ARGB_8888);
+                mOriginalEmoji.getWidth(),
+                mIsTextInside ? mOriginalEmoji.getHeight() : mOriginalEmoji.getHeight() + extraTextAreaHeight,
+                Bitmap.Config.ARGB_8888);
 
         resizeImageView(mComposedEmoji.getWidth(), mComposedEmoji.getHeight());
 
@@ -277,7 +287,7 @@ public class MainActivity extends BaseActivity
 
         //通过StaticLayout来达到换行的效果.
         StaticLayout staticLayout = new StaticLayout(mEmojiText, mTextPaint, mOriginalEmoji.getWidth(),
-            Layout.Alignment.ALIGN_CENTER, 1, 0, false);
+                Layout.Alignment.ALIGN_CENTER, 1, 0, false);
         mCanvas.save();
         mTextPaint.setTextAlign(Paint.Align.LEFT);
 
@@ -285,8 +295,8 @@ public class MainActivity extends BaseActivity
             if (mIsTextBottom) {
                 mCanvas.drawBitmap(mOriginalEmoji, 0f, 0f, null);
                 mCanvas.drawRect(0, mOriginalEmoji.getHeight(), mOriginalEmoji.getWidth(),
-                    mOriginalEmoji.getHeight() + extraTextAreaHeight,
-                    mRectPaint);
+                        mOriginalEmoji.getHeight() + extraTextAreaHeight,
+                        mRectPaint);
                 mCanvas.translate(0, mOriginalEmoji.getHeight());
             } else {
                 mCanvas.drawBitmap(mOriginalEmoji, 0f, extraTextAreaHeight, null);
@@ -530,30 +540,31 @@ public class MainActivity extends BaseActivity
         doInvalidateCanvas();
     }
 
-    @SuppressLint("InflateParams") @Override
+    @SuppressLint("InflateParams")
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.color_picker:
                 //noinspection deprecation
                 new ChromaDialog.Builder()
-                    .initialColor(getResources().getColor(R.color.theme_light))
-                    .colorMode(ColorMode.ARGB)
-                    .onColorSelected(new ColorSelectListener() {
-                        @Override
-                        public void onColorSelected(@ColorInt int i) {
-                            mColorPicked = i;
-                            doInvalidateCanvas();
-                            mTextColorRg.clearCheck();
-                        }
-                    })
-                    .create()
-                    .show(getSupportFragmentManager(), Constants.ZHUANGBILITY);
+                        .initialColor(getResources().getColor(R.color.theme_light))
+                        .colorMode(ColorMode.ARGB)
+                        .onColorSelected(new ColorSelectListener() {
+                            @Override
+                            public void onColorSelected(@ColorInt int i) {
+                                mColorPicked = i;
+                                doInvalidateCanvas();
+                                mTextColorRg.clearCheck();
+                            }
+                        })
+                        .create()
+                        .show(getSupportFragmentManager(), Constants.ZHUANGBILITY);
                 break;
             case R.id.tips_quality:
                 new AlertDialog.Builder(MainActivity.this)
-                    .setTitle(getString(R.string.quality_title))
-                    .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
-                    .show();
+                        .setTitle(getString(R.string.quality_title))
+                        .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
+                        .show();
                 break;
         }
     }
@@ -595,9 +606,9 @@ public class MainActivity extends BaseActivity
         sendIntent.setType("image/*");
         String qqFilename = getFormatFileName(mPicMode);
         File zhuangbiDir =
-            new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator
-                + Constants.ZHUANGBILITY);
+                new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + File.separator
+                        + Constants.ZHUANGBILITY);
         if (mComposedEmoji == null) {
             return;
         }
@@ -606,7 +617,7 @@ public class MainActivity extends BaseActivity
         Uri uri;
         if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
             uri = FileProvider.getUriForFile(MainActivity.this,
-                Constants.COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER, file);
+                    Constants.COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER, file);
             sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(file);
@@ -620,11 +631,11 @@ public class MainActivity extends BaseActivity
 
     private String getFormatFileName(int mode) {
         return getString(R.string.app_name_english)
-            + "-"
-            + modeStringArray[mode]
-            + "-"
-            + System.currentTimeMillis()
-            + ".jpeg";
+                + "-"
+                + modeStringArray[mode]
+                + "-"
+                + System.currentTimeMillis()
+                + ".jpeg";
     }
 
     private void handleNotInstalledCase(String packageName) {
@@ -647,7 +658,7 @@ public class MainActivity extends BaseActivity
         FileOutputStream out = null;
         File dest = null;
         File zhuangbiDir = new File(
-            Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.ZHUANGBILITY);
+                Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.ZHUANGBILITY);
         boolean success = true;
         if (!zhuangbiDir.exists()) {
             success = zhuangbiDir.mkdir();
@@ -668,8 +679,8 @@ public class MainActivity extends BaseActivity
         }
         bitmap.compress(Bitmap.CompressFormat.JPEG, mPicMode != QuantityMode.LOW ? 100 : 0, out);
         Snackbar.make(mOptionContainer, snackText, Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
-            .show();
+                .setAction("Action", null)
+                .show();
         CommonUtils.refreshLocalDb(MainActivity.this, dest);
 
         if (!dest.exists()) {
@@ -695,7 +706,8 @@ public class MainActivity extends BaseActivity
         EventBus.getDefault().unregister(this);
     }
 
-    @IntDef({ QuantityMode.HIGH, QuantityMode.LOW, QuantityMode.PURE_TEXT }) @Retention(RetentionPolicy.RUNTIME)
+    @IntDef({QuantityMode.HIGH, QuantityMode.LOW, QuantityMode.PURE_TEXT})
+    @Retention(RetentionPolicy.RUNTIME)
     public @interface QuantityMode {
         int HIGH = 0;
         int LOW = 1;
@@ -721,7 +733,14 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.action_share:
-                showShare();
+                String localFileName = getFormatFileName(mPicMode);
+                if (mComposedEmoji == null) {
+                    break;
+                }
+                saveNewEmojiToSdCard(localFileName, mComposedEmoji);
+                showShare(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + File.separator
+                        + Constants.ZHUANGBILITY + File.separator + localFileName);
                 break;
             case R.id.action_about:
                 Bundler.aboutActivity().start(MainActivity.this);

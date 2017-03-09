@@ -36,7 +36,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
     def app = rootProject.ext.dependencies
-    
+
     annotationProcessor app.bundlerCompiler
     compile app.butterKnife
     annotationProcessor app.butterKnifeCompiler
@@ -66,4 +66,5 @@ dependencies {
     compile app.appCompat
     compile app.jsoup
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta2'
 }

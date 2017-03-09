@@ -11,13 +11,4 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
     }
-
-    public void testQQ(View view) {
-    }
-
-    public void testSina(View view) {
-    }
-
-    public void testWx(View view) {
-    }
 }

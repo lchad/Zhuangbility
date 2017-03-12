@@ -65,6 +65,4 @@ dependencies {
     compile app.chrome
     compile app.appCompat
     compile app.jsoup
-
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta2'
 }

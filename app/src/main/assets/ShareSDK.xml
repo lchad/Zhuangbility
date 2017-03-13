@@ -56,22 +56,20 @@
     <ShareSDK
         AppKey="1bce8e15e8353"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
 
-    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
-    <SinaWeibo
-        Id="1"
-        SortId="1"
-        AppKey="2544827617"
-        AppSecret="305fe336c4ffef6ab55848dca764349a"
-        RedirectUrl="http://www.wandoujia.com/apps/com.liuchad.zhuangbility"
-        ShareByAppClient="true"
-        Enable="true"/>
-
-
     <QZone
         Id="3"
         SortId="3"
         AppId="1105948021"
         AppKey="O7HwAKN3C2PbLcVq"
+        Enable="true"/>
+
+    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+    <QQ
+        Id="7"
+        SortId="7"
+        AppId="1105948021"
+        AppKey="O7HwAKN3C2PbLcVq"
+        ShareByAppClient="true"
         Enable="true"/>
 
     <!-- 
@@ -108,15 +106,5 @@
         AppId="wx5545936cd9629ce1"
         AppSecret="2d9ac2f63eb4a5ebc480890e3001dff0"
         Enable="true"/>
-
-    <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
-    <QQ
-        Id="7"
-        SortId="7"
-        AppId="1105948021"
-        AppKey="O7HwAKN3C2PbLcVq"
-        ShareByAppClient="true"
-        Enable="true"/>
-
 
 </DevInfor>

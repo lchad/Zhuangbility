@@ -733,14 +733,15 @@ public class MainActivity extends BaseActivity
                 }
                 break;
             case R.id.action_share:
-                String localFileName = getFormatFileName(mPicMode);
-                if (mComposedEmoji == null) {
-                    break;
-                }
-                saveNewEmojiToSdCard(localFileName, mComposedEmoji);
-                showShare(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + File.separator
-                        + Constants.ZHUANGBILITY + File.separator + localFileName);
+//                String localFileName = getFormatFileName(mPicMode);
+//                if (mComposedEmoji == null) {
+//                    break;
+//                }
+//                saveNewEmojiToSdCard(localFileName, mComposedEmoji);
+//                showShare(Environment.getExternalStorageDirectory().getAbsolutePath()
+//                        + File.separator
+//                        + Constants.ZHUANGBILITY + File.separator + localFileName);
+                showShare(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +"a.jpg");
                 break;
             case R.id.action_about:
                 Bundler.aboutActivity().start(MainActivity.this);

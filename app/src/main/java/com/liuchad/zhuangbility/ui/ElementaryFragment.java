@@ -1,5 +1,3 @@
-// (c)2016 Flipboard Inc, All Rights Reserved.
-
 package com.liuchad.zhuangbility.ui;
 
 import android.graphics.Color;

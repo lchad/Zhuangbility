@@ -65,4 +65,5 @@ dependencies {
     compile app.chrome
     compile app.appCompat
     compile app.jsoup
+    compile app.floatingactionbutton
 }

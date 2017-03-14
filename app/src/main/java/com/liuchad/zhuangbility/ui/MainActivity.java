@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 
 import com.liuchad.zhuangbility.Constants;
@@ -47,6 +48,7 @@ import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import com.liuchad.zhuangbility.util.CommonUtils;
+import com.liuchad.zhuangbility.util.ToastUtils;
 import com.liuchad.zhuangbility.widget.IconView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,8 +72,7 @@ import me.priyesh.chroma.ColorSelectListener;
 
 @RequireBundler
 public class MainActivity extends BaseActivity
-        implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-        IconView.IconClickListener {
+        implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
     public final int REQUEST_SELECT_PIC = 101;
     private static final int REQUEST_CODE_CAMERA_CROP = 103;
@@ -102,12 +103,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.color_picker) ImageView mColorPicker;
     @BindView(R.id.text_color_rg) RadioGroup mTextColorRg;
     @BindView(R.id.tips_quality) Button mTipsQuality;
-    @BindView(R.id.share_to_qq) IconView mShareToQQ;
-    @BindView(R.id.share_to_wechat) IconView mShareToWeChat;
-    @BindView(R.id.save_to_local) IconView mSaveToLocal;
-    @BindView(R.id.select_from_galery) IconView mSelectFromGalery;
-    @BindView(R.id.select_from_recomend) IconView mSelectFromRecomend;
-    @BindView(R.id.options_container) LinearLayout mOptionContainer;
+    @BindView(R.id.scroll_view) ScrollView mScrollView;
 
     /**
      * 要增加的文字
@@ -233,11 +229,6 @@ public class MainActivity extends BaseActivity
         mHigherQuality.setOnCheckedChangeListener(this);
         mLowerQuality.setOnCheckedChangeListener(this);
         mPureText.setOnCheckedChangeListener(this);
-        mShareToQQ.setIconClickListener(this);
-        mShareToWeChat.setIconClickListener(this);
-        mSelectFromGalery.setIconClickListener(this);
-        mSaveToLocal.setIconClickListener(this);
-        mSelectFromRecomend.setIconClickListener(this);
     }
 
     @Override
@@ -569,33 +560,12 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @Override
-    public void onIconClick(IconView view) {
-        switch (view.getId()) {
-            case R.id.share_to_qq:
-                if (CommonUtils.getDeviceModel().contains("mi")) {
-                    //部分机型无法直接分享图片文件,所以调用这个方法来分享Bitmap
-                    CommonUtils.shareImage(MainActivity.this, mComposedEmoji, Constants.QQ_PACKAGE_NAME);
-                } else {
-                    shareToFriends(Constants.QQ_SEND_ACTIVITY, Constants.QQ_PACKAGE_NAME);
-                }
-                break;
-            case R.id.share_to_wechat:
-                if (CommonUtils.getDeviceModel().contains("mi")) {
-                    //部分机型无法直接分享图片文件,所以调用这个方法来分享Bitmap
-                    CommonUtils.shareImage(MainActivity.this, mComposedEmoji, Constants.WECHAT_PACKAGE_NAME);
-                } else {
-                    shareToFriends(Constants.WECHAT_SEND_ACTIVITY, Constants.WECHAT_PACKAGE_NAME);
-                }
-                break;
-            case R.id.select_from_galery:
-                Bundler.multiImageSelectorActivity(Mode.MODE_SINGLE, true).start(MainActivity.this);
-                break;
-            case R.id.select_from_recomend:
-                Bundler.selectPicActivity().start(MainActivity.this);
-                break;
-        }
-    }
+//            case R.id.select_from_galery:
+//                Bundler.multiImageSelectorActivity(Mode.MODE_SINGLE, true).start(MainActivity.this);
+//                break;
+//            case R.id.select_from_recomend:
+//                Bundler.selectPicActivity().start(MainActivity.this);
+//                break;
 
     private void shareToFriends(String destActivity, String packageName) {
         if (!CommonUtils.isAppInstalled(MainActivity.this, packageName)) {
@@ -678,7 +648,7 @@ public class MainActivity extends BaseActivity
             CommonUtils.showToast(getString(R.string.file_not_found));
         }
         bitmap.compress(Bitmap.CompressFormat.JPEG, mPicMode != QuantityMode.LOW ? 100 : 0, out);
-        Snackbar.make(mOptionContainer, snackText, Snackbar.LENGTH_LONG)
+        Snackbar.make(mScrollView, snackText, Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show();
         CommonUtils.refreshLocalDb(MainActivity.this, dest);

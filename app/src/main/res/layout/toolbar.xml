@@ -7,4 +7,12 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     app:popupTheme="@style/AppTheme.PopupOverlay"
-    />
+    >
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.SearchView>
+</android.support.v7.widget.Toolbar>

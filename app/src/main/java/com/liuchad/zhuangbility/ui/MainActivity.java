@@ -231,6 +231,7 @@ public class MainActivity extends BaseActivity
         mFromGallery.setOnClickListener(this);
         mFromInternet.setOnClickListener(this);
         mEmoji.setOnClickListener(this);
+//        mFromInternet.performClick();
     }
 
     @Override
@@ -548,9 +549,11 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.from_gallery:
                 Bundler.multiImageSelectorActivity(Mode.MODE_SINGLE, true).start(MainActivity.this);
+                mFloatingActionsMenu.collapse();
                 break;
             case R.id.from_internet:
                 Bundler.elementaryActivity().start(MainActivity.this);
+                mFloatingActionsMenu.collapse();
                 break;
 
             case R.id.zhuangbi:

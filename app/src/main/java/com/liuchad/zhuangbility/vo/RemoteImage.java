@@ -5,7 +5,9 @@ package com.liuchad.zhuangbility.vo;
  * Github: https://github.com/lchad
  */
 
-public class ZhuangbiImage {
+public class RemoteImage {
     public String description;
     public String image_url;
+    public int width;
+    public int height;
 }

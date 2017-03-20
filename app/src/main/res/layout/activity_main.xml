@@ -351,7 +351,6 @@
             fab:fabSize="mini"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_icon="@drawable/ic_edit"
             fab:fab_title="从图库选图"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -361,7 +360,6 @@
             fab:fabSize="mini"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_icon="@drawable/ic_edit"
             fab:fab_title="从网络选图"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>

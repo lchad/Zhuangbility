@@ -2,7 +2,6 @@ package com.liuchad.zhuangbility.ui;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,12 +11,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Layout;
@@ -40,6 +37,8 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.Mode;
 import com.liuchad.zhuangbility.R;
@@ -48,8 +47,6 @@ import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import com.liuchad.zhuangbility.util.CommonUtils;
-import com.liuchad.zhuangbility.util.ToastUtils;
-import com.liuchad.zhuangbility.widget.IconView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,7 +79,6 @@ public class MainActivity extends BaseActivity
             Color.BLACK, Color.WHITE, Color.GRAY,
     };
     @BindView(R.id.toolbar) Toolbar toolbar;
-
     @BindView(R.id.zhuangbi) ImageView mEmoji;
     @BindView(R.id.emoji_slogan) EditText mEmojiInputContent;
     @BindView(R.id.text_size_progress) SeekBar mTextSizeProgress;
@@ -104,6 +100,9 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.text_color_rg) RadioGroup mTextColorRg;
     @BindView(R.id.tips_quality) Button mTipsQuality;
     @BindView(R.id.scroll_view) ScrollView mScrollView;
+    @BindView(R.id.multiple_actions) FloatingActionsMenu mFloatingActionsMenu;
+    @BindView(R.id.from_gallery) FloatingActionButton mFromGallery;
+    @BindView(R.id.from_internet) FloatingActionButton mFromInternet;
 
     /**
      * 要增加的文字
@@ -159,6 +158,8 @@ public class MainActivity extends BaseActivity
 
     private int screenWidth;
 
+    private OnekeyShare mOnekeyShare;
+
     private String[] modeStringArray = {Constants.GAOQING, Constants.ZUCHUAN, Constants.PURE_TEXT};
 
     private TextWatcher mContentTextWatcher = new TextWatcher() {
@@ -167,13 +168,13 @@ public class MainActivity extends BaseActivity
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mEmojiText = s.toString();
-            doInvalidateCanvas();
+        public void afterTextChanged(Editable s) {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            mEmojiText = s.toString();
+            doInvalidateCanvas();
         }
     };
 
@@ -188,9 +189,7 @@ public class MainActivity extends BaseActivity
         ShareSDK.initSDK(MainActivity.this, Constants.MOB_KEY);
     }
 
-    private OnekeyShare mOnekeyShare;
-
-    private void showShare(String imagePath) {
+    private void oneKeyShare(String imagePath) {
         if (mOnekeyShare == null) {
             mOnekeyShare = new OnekeyShare();
         }
@@ -229,6 +228,9 @@ public class MainActivity extends BaseActivity
         mHigherQuality.setOnCheckedChangeListener(this);
         mLowerQuality.setOnCheckedChangeListener(this);
         mPureText.setOnCheckedChangeListener(this);
+        mFromGallery.setOnClickListener(this);
+        mFromInternet.setOnClickListener(this);
+        mEmoji.setOnClickListener(this);
     }
 
     @Override
@@ -244,16 +246,13 @@ public class MainActivity extends BaseActivity
 
     private void doInvalidateCanvas() { /*输入文字的总宽度*/
         float textTotalWidth = mTextPaint.measureText(mEmojiText);
-        if (mBitmapFromFile == null)
-
-        {
+        if (mBitmapFromFile == null) {
             mOriginalEmoji = BitmapFactory.decodeResource(getResources(), mDefaultEmojiId);
         } else {
             mOriginalEmoji = mBitmapFromFile;
         }
         //输入文字的总高度(包括换行)
-        int extraTextAreaHeight =
-                ((int) Math.ceil(textTotalWidth / mOriginalEmoji.getWidth())) * (int) ((mTextSize) * 1.2);
+        int extraTextAreaHeight = ((int) Math.ceil(textTotalWidth / mOriginalEmoji.getWidth())) * (int) ((mTextSize) * 1.2);
 
         Typeface font = Typeface.create(Typeface.SANS_SERIF, mFontStyle);
 
@@ -387,16 +386,6 @@ public class MainActivity extends BaseActivity
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
 
     @Override
@@ -557,46 +546,17 @@ public class MainActivity extends BaseActivity
                         .setView(getLayoutInflater().inflate(R.layout.dialog_quality, null))
                         .show();
                 break;
-        }
-    }
+            case R.id.from_gallery:
+                Bundler.multiImageSelectorActivity(Mode.MODE_SINGLE, true).start(MainActivity.this);
+                break;
+            case R.id.from_internet:
+                Bundler.elementaryActivity().start(MainActivity.this);
+                break;
 
-//            case R.id.select_from_galery:
-//                Bundler.multiImageSelectorActivity(Mode.MODE_SINGLE, true).start(MainActivity.this);
-//                break;
-//            case R.id.select_from_recomend:
-//                Bundler.selectPicActivity().start(MainActivity.this);
-//                break;
+            case R.id.zhuangbi:
 
-    private void shareToFriends(String destActivity, String packageName) {
-        if (!CommonUtils.isAppInstalled(MainActivity.this, packageName)) {
-            handleNotInstalledCase(packageName);
-            return;
+                break;
         }
-        Intent sendIntent = new Intent(Constants.ACTION_SEND);
-        sendIntent.setType("image/*");
-        String qqFilename = getFormatFileName(mPicMode);
-        File zhuangbiDir =
-                new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + File.separator
-                        + Constants.ZHUANGBILITY);
-        if (mComposedEmoji == null) {
-            return;
-        }
-        saveNewEmojiToSdCard(qqFilename, mComposedEmoji);
-        File file = new File(zhuangbiDir, qqFilename);
-        Uri uri;
-        if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-            uri = FileProvider.getUriForFile(MainActivity.this,
-                    Constants.COM_LIUCHAD_ZHUANGBILITY_FILEPROVIDER, file);
-            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            uri = Uri.fromFile(file);
-        }
-
-        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        sendIntent.setComponent(new ComponentName(packageName, destActivity));
-        startActivity(sendIntent);
     }
 
     private String getFormatFileName(int mode) {
@@ -606,17 +566,6 @@ public class MainActivity extends BaseActivity
                 + "-"
                 + System.currentTimeMillis()
                 + ".jpeg";
-    }
-
-    private void handleNotInstalledCase(String packageName) {
-        switch (packageName) {
-            case Constants.QQ_PACKAGE_NAME:
-                CommonUtils.showToast(getString(R.string.have_not_install_qq));
-                break;
-            case Constants.WECHAT_PACKAGE_NAME:
-                CommonUtils.showToast(getString(R.string.have_not_install_wechat));
-                break;
-        }
     }
 
     public void saveNewEmojiToSdCard(String filename, Bitmap bitmap) {
@@ -697,21 +646,20 @@ public class MainActivity extends BaseActivity
                 Bundler.themeActivity().start(MainActivity.this);
                 break;
             case R.id.action_save:
-                String filename = getFormatFileName(mPicMode);
-                if (mComposedEmoji != null) {
-                    saveNewEmojiToSdCard(filename, mComposedEmoji);
+                if (mComposedEmoji == null) {
+                    break;
                 }
+                String filename = getFormatFileName(mPicMode);
+                saveNewEmojiToSdCard(filename, mComposedEmoji);
                 break;
             case R.id.action_share:
-//                String localFileName = getFormatFileName(mPicMode);
-//                if (mComposedEmoji == null) {
-//                    break;
-//                }
-//                saveNewEmojiToSdCard(localFileName, mComposedEmoji);
-//                showShare(Environment.getExternalStorageDirectory().getAbsolutePath()
-//                        + File.separator
-//                        + Constants.ZHUANGBILITY + File.separator + localFileName);
-                showShare(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +"a.jpg");
+                if (mComposedEmoji == null) {
+                    break;
+                }
+                String sharedFilename = getFormatFileName(mPicMode);
+                saveNewEmojiToSdCard(sharedFilename, mComposedEmoji);
+                oneKeyShare(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + File.separator + Constants.ZHUANGBILITY + File.separator + sharedFilename);
                 break;
             case R.id.action_about:
                 Bundler.aboutActivity().start(MainActivity.this);
@@ -724,7 +672,12 @@ public class MainActivity extends BaseActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+    }
 }
-
-
-

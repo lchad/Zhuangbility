@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.Toast;
-
 
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.adapter.ZhuangbiListAdapter;
@@ -25,7 +23,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import in.workarounds.bundler.annotations.RequireBundler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import rx.Observer;
 import rx.schedulers.Schedulers;
 

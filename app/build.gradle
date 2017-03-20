@@ -66,4 +66,5 @@ dependencies {
     compile app.appCompat
     compile app.jsoup
     compile app.floatingactionbutton
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta2'
 }

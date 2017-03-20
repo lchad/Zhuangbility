@@ -345,7 +345,7 @@
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_remove"
+            android:id="@+id/from_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fabSize="mini"
@@ -355,7 +355,7 @@
             fab:fab_title="从图库选图"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_enable"
+            android:id="@+id/from_internet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fabSize="mini"

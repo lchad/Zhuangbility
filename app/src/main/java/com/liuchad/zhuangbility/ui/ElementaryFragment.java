@@ -3,6 +3,7 @@ package com.liuchad.zhuangbility.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,6 @@ import android.widget.RadioButton;
 
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.adapter.ZhuangbiListAdapter;
-import com.liuchad.zhuangbility.base.BaseFragment;
 import com.liuchad.zhuangbility.network.Network;
 import com.liuchad.zhuangbility.vo.ZhuangbiImage;
 
@@ -23,32 +23,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import in.workarounds.bundler.annotations.RequireBundler;
-import rx.Observer;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 @RequireBundler
-public class ElementaryFragment extends BaseFragment {
+public class ElementaryFragment extends Fragment {
     @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.gridRv) RecyclerView gridRv;
 
     ZhuangbiListAdapter adapter = new ZhuangbiListAdapter();
-    Observer<List<ZhuangbiImage>> observer = new Observer<List<ZhuangbiImage>>() {
-        @Override
-        public void onCompleted() {
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            swipeRefreshLayout.setRefreshing(false);
-//            Toast.makeText(getActivity(), R.string.loading_failed, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onNext(List<ZhuangbiImage> images) {
-            swipeRefreshLayout.setRefreshing(false);
-            adapter.setData(images);
-        }
-    };
 
     @OnCheckedChanged({R.id.searchRb1, R.id.searchRb2, R.id.searchRb3, R.id.searchRb4})
     void onTagChecked(RadioButton searchRb, boolean checked) {
@@ -63,8 +48,24 @@ public class ElementaryFragment extends BaseFragment {
         Network.getZhuangbiApi()
                 .search(key)
                 .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<ZhuangbiImage>>() {
+                    @Override
+                    public void accept(List<ZhuangbiImage> zhuangbiImages) throws Exception {
+                        swipeRefreshLayout.setRefreshing(false);
+                        adapter.setData(zhuangbiImages);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        //onComplete().
+                    }
+                });
     }
 
     @Nullable
@@ -79,25 +80,5 @@ public class ElementaryFragment extends BaseFragment {
         swipeRefreshLayout.setEnabled(false);
 
         return view;
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return 0;
-    }
-
-    @Override
-    protected void initInjector() {
-
-    }
-
-    @Override
-    protected void initView() {
-
-    }
-
-    @Override
-    protected void initData() {
-
     }
 }

@@ -11,13 +11,14 @@ import com.bumptech.glide.Glide;
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.vo.ZhuangbiImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ZhuangbiListAdapter extends RecyclerView.Adapter {
-    private List<ZhuangbiImage> mImages;
+    private List<ZhuangbiImage> mImages = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,13 +40,22 @@ public class ZhuangbiListAdapter extends RecyclerView.Adapter {
     }
 
     public void setData(List<ZhuangbiImage> images) {
-        this.mImages = images;
+        if (images == null) {
+            return;
+        }
+        if (mImages != null) {
+            mImages.clear();
+        } else {
+            mImages = new ArrayList<>();
+        }
+        mImages.addAll(images);
         notifyDataSetChanged();
     }
 
     static class PicViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageIv) ImageView imageIv;
         @BindView(R.id.descriptionTv) TextView descriptionTv;
+
         PicViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

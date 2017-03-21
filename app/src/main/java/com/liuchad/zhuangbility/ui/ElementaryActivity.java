@@ -12,6 +12,7 @@ import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.adapter.ZhuangbiListAdapter;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.network.Network;
+import com.liuchad.zhuangbility.util.RxUtil;
 import com.liuchad.zhuangbility.vo.RemoteImage;
 
 import java.util.List;
@@ -20,7 +21,6 @@ import butterknife.BindView;
 import in.workarounds.bundler.annotations.RequireBundler;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
@@ -85,7 +85,7 @@ public class ElementaryActivity extends BaseActivity {
         Network.getService()
                 .search(key)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxUtil.<List<RemoteImage>>applyAsySchedulers())
                 .subscribe(new Observer<List<RemoteImage>>() {
                     @Override
                     public void onSubscribe(Disposable d) {

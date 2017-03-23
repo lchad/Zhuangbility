@@ -27,10 +27,18 @@ public class ZhuangbiListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         PicViewHolder mPicViewHolder = (PicViewHolder) holder;
         RemoteImage image = mImages.get(position);
         mPicViewHolder.bind(image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(mImages.get(holder.getAdapterPosition()).image_url);
+                }
+            }
+        });
     }
 
     @Override
@@ -55,22 +63,24 @@ public class ZhuangbiListAdapter extends RecyclerView.Adapter {
         @BindView(R.id.imageIv) ImageView imageIv;
         @BindView(R.id.descriptionTv) TextView descriptionTv;
 
-        private RemoteImage mRemoteImage;
-
         PicViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         public void bind(RemoteImage image) {
-            mRemoteImage = image;
             Glide.with(imageIv.getContext()).load(image.image_url).into(imageIv);
             descriptionTv.setText(image.description);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                }
-            });
         }
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(String url);
     }
 }

@@ -45,8 +45,10 @@ import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SelectPicEvent;
+import com.liuchad.zhuangbility.event.SelectRemotePicEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
 import com.liuchad.zhuangbility.util.CommonUtils;
+import com.liuchad.zhuangbility.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,6 +72,13 @@ import me.priyesh.chroma.ColorSelectListener;
 @RequireBundler
 public class MainActivity extends BaseActivity
         implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+    // TODO: 2017/3/21 研究花熊的字体
+    // TODO: 2017/3/21 恢复从素材选图 (走网络)
+    // TODO: 2017/3/21 研究如何实时改变Bitmap的失真度
+    // TODO: 2017/3/21 设置颜色主题,优先度低
+    // TODO: 2017/3/21 将MainActivity改造成MVP模式
+    // TODO: 2017/3/21 引入Dagger2
+    // TODO: 2017/3/21 如何实现gif编辑效果
 
     public final int REQUEST_SELECT_PIC = 101;
     private static final int REQUEST_CODE_CAMERA_CROP = 103;
@@ -78,6 +87,7 @@ public class MainActivity extends BaseActivity
             Color.parseColor("#333333"),    /*默认字体颜色*/
             Color.BLACK, Color.WHITE, Color.GRAY,
     };
+
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.zhuangbi) ImageView mEmoji;
     @BindView(R.id.emoji_slogan) EditText mEmojiInputContent;
@@ -519,6 +529,15 @@ public class MainActivity extends BaseActivity
         mDefaultEmojiId = event.id;
         mBitmapFromFile = null;
         doInvalidateCanvas();
+    }
+
+    /**
+     * 从服务端选择的图片,会回调图片的url.
+     * @param event 事件.
+     */
+    @Subscribe
+    public void onEvent(SelectRemotePicEvent event) {
+        ToastUtils.showToast(event.url);
     }
 
     @SuppressLint("InflateParams")

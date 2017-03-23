@@ -22,4 +22,9 @@ public class Constants {
 
     public static final String MOB_KEY = "1bce8e15e8353";
     public static final String MOB_SECRET = "5547c1f3f1f681872e7d907cb6e57a71";
+
+    public static final String WEIBO_URL = "https://github.com/lchad";
+    public static final String ZHIHU_URL = "https://www.zhihu.com/people/lchad";
+    public static final String GITHUB_URL = "http://weibo.com/lchad";
+    public static final String REPOSITORY_URL = "https://github.com/lchad/Zhuangbility";
 }

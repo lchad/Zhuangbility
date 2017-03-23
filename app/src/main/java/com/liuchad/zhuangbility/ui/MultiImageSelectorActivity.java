@@ -1,5 +1,6 @@
 package com.liuchad.zhuangbility.ui;
 
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +25,12 @@ public class MultiImageSelectorActivity extends BaseActivity
     implements MultiImageSelectorFragment.Callback {
 
     private ArrayList<String> resultList = new ArrayList<>();
-    @BindView(R.id.back) ImageView mBack;
 
     public @Arg @Required() int selectMode;
     public @Arg @Required(false) int maxSelectCount = 10;
     public @Arg @Required() boolean showCamera;
+
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @SuppressWarnings("FieldCanBeLocal") private MenuItem mFinishMenu;
 
@@ -41,14 +43,19 @@ public class MultiImageSelectorActivity extends BaseActivity
     }
 
     @Override protected void initView() {
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.theme_light));
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        mToolbar.setTitle(R.string.select_album);
         getSupportFragmentManager().beginTransaction()
             .add(R.id.image_grid, Bundler.multiImageSelectorFragment(Mode.MODE_SINGLE, true).create())
             .commit();
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     @Override protected void initData() {

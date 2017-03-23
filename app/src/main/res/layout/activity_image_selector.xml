@@ -3,18 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/multi_title_layout"
-        style="@style/title_layout_style">
 
-        <ImageView
-            android:id="@+id/back"
-            style="@style/back_style"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
-        <TextView
-            android:text="@string/select_album"
-            style="@style/title_textview_style"/>
-    </RelativeLayout>
     <FrameLayout
         android:id="@+id/image_grid"
         android:layout_width="match_parent"

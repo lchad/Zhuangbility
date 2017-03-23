@@ -25,15 +25,15 @@ public class SelectPicActivity extends BaseActivity {
     }
 
     @Override protected void initView() {
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(manager);
-        final PicAdapter adapter = new PicAdapter(null);
-        mRecyclerView.setAdapter(adapter);
-        mBack.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                finish();
-            }
-        });
+//        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//        mRecyclerView.setLayoutManager(manager);
+//        final PicAdapter adapter = new PicAdapter(picIds);
+//        mRecyclerView.setAdapter(adapter);
+//        mBack.setOnClickListener(new View.OnClickListener() {
+//            @Override public void onClick(View view) {
+//                finish();
+//            }
+//        });
     }
 
     @Override protected void initData() {
@@ -84,5 +84,78 @@ public class SelectPicActivity extends BaseActivity {
         }
     }
 
-
+//    private int[] picIds = new int[] {
+//        R.drawable.bfj2,
+//        R.drawable.bfj3,
+//        R.drawable.bfj4,
+//        R.drawable.bfj5,
+//        R.drawable.bfj6,
+//        R.drawable.bfj7,
+//        R.drawable.kt1,
+//        R.drawable.kt2,
+//        R.drawable.kt3,
+//        R.drawable.kt4,
+//        R.drawable.kt5,
+//        R.drawable.kt6,
+//        R.drawable.kt7,
+//        R.drawable.kt8,
+//        R.drawable.kt9,
+//        R.drawable.kt10,
+//        R.drawable.kt11,
+//        R.drawable.kt12,
+//        R.drawable.kt13,
+//        R.drawable.kt14,
+//        R.drawable.kt15,
+//        R.drawable.kt16,
+//        R.drawable.kt17,
+//        R.drawable.kt18,
+//        R.drawable.kt19,
+//        R.drawable.mg1,
+//        R.drawable.mg2,
+//        R.drawable.mg3,
+//        R.drawable.mg4,
+//        R.drawable.mg5,
+//        R.drawable.mg6,
+//        R.drawable.mg7,
+//        R.drawable.mg8,
+//        R.drawable.mg9,
+//        R.drawable.mg10,
+//        R.drawable.mg11,
+//        R.drawable.mg12,
+//        R.drawable.mg13,
+//        R.drawable.mg14,
+//        R.drawable.mg15,
+//        R.drawable.mg16,
+//        R.drawable.rm1,
+//        R.drawable.rm2,
+//        R.drawable.rm3,
+//        R.drawable.rm4,
+//        R.drawable.rm5,
+//        R.drawable.rm6,
+//        R.drawable.rm7,
+//        R.drawable.rm8,
+//        R.drawable.rm9,
+//        R.drawable.rm10,
+//        R.drawable.rm11,
+//        R.drawable.rm12,
+//        R.drawable.rm13,
+//        R.drawable.rm14,
+//        R.drawable.rm15,
+//        R.drawable.xbx1,
+//        R.drawable.xbx2,
+//        R.drawable.xbx3,
+//        R.drawable.xbx4,
+//        R.drawable.xm1,
+//        R.drawable.xm2,
+//        R.drawable.xm3,
+//        R.drawable.xm4,
+//        R.drawable.xm5,
+//        R.drawable.xm6,
+//        R.drawable.xm7,
+//        R.drawable.xm8,
+//        R.drawable.xm9,
+//        R.drawable.xxg1,
+//        R.drawable.xxg2,
+//        R.drawable.xxg3,
+//    };
 }

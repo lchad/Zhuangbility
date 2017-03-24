@@ -1,6 +1,7 @@
 package com.liuchad.zhuangbility.network;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.liuchad.zhuangbility.Constants;
 import com.liuchad.zhuangbility.network.api.RemoteImageApi;
 
 import okhttp3.OkHttpClient;
@@ -19,7 +20,7 @@ public class Network {
         if (remoteApi == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(okHttpClient)
-                    .baseUrl("http://www.zhuangbi.info/")
+                    .baseUrl(Constants.ZHUANGBILITY_BASE_URL)
                     .addConverterFactory(gsonConverterFactory)
                     .addCallAdapterFactory(rxJavaCallAdapterFactory)
                     .build();

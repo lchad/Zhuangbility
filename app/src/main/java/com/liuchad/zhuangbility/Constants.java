@@ -27,4 +27,5 @@ public class Constants {
     public static final String ZHIHU_URL = "https://www.zhihu.com/people/lchad";
     public static final String GITHUB_URL = "http://weibo.com/lchad";
     public static final String REPOSITORY_URL = "https://github.com/lchad/Zhuangbility";
+    public static final String ZHUANGBILITY_BASE_URL = "http://www.zhuangbi.info/";
 }

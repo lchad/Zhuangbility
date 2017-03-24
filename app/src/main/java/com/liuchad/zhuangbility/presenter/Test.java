@@ -1,5 +1,10 @@
 package com.liuchad.zhuangbility.presenter;
 
+import android.util.Log;
+
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.liuchad.zhuangbility.TestActivity;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +28,13 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 import io.reactivex.subjects.Subject;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by lchad on 2017/3/22.
@@ -572,7 +584,46 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        testBehaviorSubject();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.account.ipalmap.com")
+                .client(okHttpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        Api api = retrofit.create(Api.class);
+        api.search("palmap_open", "password", "799505946@qq.com", "zhiluji123123")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String value) {
+                        Log.d(TAG, value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "complete");
+                    }
+                });
+    }
+
+    interface Api {
+        @GET("auth/realms/master/protocol/openid-connect/token")
+        Observable<String> search(@Query("client_id") String clientId,
+                                  @Query("grant_type") String pass,
+                                  @Query("username") String username,
+                                  @Query("password") String password);
     }
 
     //Rxjava 2.0之后不允许传递null了.

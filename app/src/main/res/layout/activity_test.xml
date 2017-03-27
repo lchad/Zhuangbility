@@ -14,4 +14,9 @@
         app:fabSize="normal"
         app:layout_anchorGravity="bottom|right|end"/>
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
+        android:src="@drawable/web_hi_res_512"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -29,6 +29,7 @@ public class ElementaryPresenter<T extends IElementaryView> extends BasePresente
 
     @Override
     public void search(String key) {
+        mElementaryView.setRefresh(true);
         Network.getService()
                 .search(key)
                 .compose(RxUtil.<List<RemoteImage>>applyObservableSchedulers())

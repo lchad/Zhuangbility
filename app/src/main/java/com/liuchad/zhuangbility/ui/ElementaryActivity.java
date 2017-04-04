@@ -15,27 +15,30 @@ import android.view.MenuItem;
 import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.adapter.ZhuangbiListAdapter;
 import com.liuchad.zhuangbility.base.BaseActivity;
-import com.liuchad.zhuangbility.event.SelectRemotePicEvent;
 import com.liuchad.zhuangbility.presenter.ElementaryPresenter;
 import com.liuchad.zhuangbility.view.IElementaryView;
 import com.liuchad.zhuangbility.vo.RemoteImage;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
 
 import butterknife.BindView;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import in.workarounds.bundler.annotations.RequireBundler;
 
 @RequireBundler
 public class ElementaryActivity extends BaseActivity implements IElementaryView {
     private ElementaryPresenter mElementaryPresenter;
 
-    @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.gridRv) RecyclerView mRecyclerView;
-    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.gridRv)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
     ZhuangbiListAdapter adapter = new ZhuangbiListAdapter();
+
+    private OnekeyShare mOnekeyShare;
 
     @Override
     protected int getLayoutId() {
@@ -54,8 +57,7 @@ public class ElementaryActivity extends BaseActivity implements IElementaryView 
         adapter.setOnItemClickListener(new ZhuangbiListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String url) {
-                EventBus.getDefault().post(new SelectRemotePicEvent(url));
-                finish();
+                oneKeyShare(url);
             }
         });
         mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
@@ -63,6 +65,18 @@ public class ElementaryActivity extends BaseActivity implements IElementaryView 
 
         mToolbar.setBackgroundColor(getResources().getColor(R.color.theme_light));
         setSupportActionBar(mToolbar);
+    }
+
+
+    private void oneKeyShare(String url) {
+        if (mOnekeyShare == null) {
+            mOnekeyShare = new OnekeyShare();
+        }
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        mOnekeyShare.setImageUrl(url);
+
+        // 启动分享GUI
+        mOnekeyShare.show(this);
     }
 
     @Override

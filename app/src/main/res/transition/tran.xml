@@ -1,0 +1,6 @@
+<explode xmlns:android="http://schemas.android.com/apk/res/android">
+    <targets>
+        <target android:targetId="@id/splash_image"/>
+        <target android:targetId="@id/zhuangbi"/>
+    </targets>
+</explode>

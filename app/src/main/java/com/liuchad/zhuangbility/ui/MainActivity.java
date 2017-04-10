@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.multiple_actions) FloatingActionsMenu mFloatingActionsMenu;
     @BindView(R.id.from_gallery) FloatingActionButton mFromGallery;
     @BindView(R.id.from_internet) FloatingActionButton mFromInternet;
+    @BindView(R.id.from_sample) FloatingActionButton mFromSample;
 
     /**
      * 要增加的文字
@@ -242,6 +243,7 @@ public class MainActivity extends BaseActivity
         mFromGallery.setOnClickListener(this);
         mFromInternet.setOnClickListener(this);
         mEmoji.setOnClickListener(this);
+        mFromSample.setOnClickListener(this);
 //        mFromInternet.performClick();
     }
 
@@ -573,6 +575,10 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.from_internet:
                 Bundler.elementaryActivity().start(MainActivity.this);
+                mFloatingActionsMenu.collapse();
+                break;
+            case R.id.from_sample:
+                Bundler.selectPicActivity().start(MainActivity.this);
                 mFloatingActionsMenu.collapse();
                 break;
 

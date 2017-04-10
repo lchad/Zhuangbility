@@ -55,8 +55,7 @@
         <activity
             android:name=".ui.SelectPicActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.MultiImageSelectorActivity"

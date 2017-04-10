@@ -343,6 +343,14 @@
         fab:fab_expandDirection="up"
         fab:fab_labelStyle="@style/menu_labels_style">
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/from_sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fabSize="mini"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_title="从素材选图"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/from_gallery"

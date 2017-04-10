@@ -1,6 +1,9 @@
 package com.liuchad.zhuangbility.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +13,7 @@ import com.liuchad.zhuangbility.R;
 import com.liuchad.zhuangbility.base.BaseActivity;
 import com.liuchad.zhuangbility.event.MultiPicSelectedEvent;
 import com.liuchad.zhuangbility.event.SinglePicSelectedEvent;
+import com.liuchad.zhuangbility.util.CommonUtils;
 
 import butterknife.BindView;
 import in.workarounds.bundler.Bundler;
@@ -52,7 +56,9 @@ public class MultiImageSelectorActivity extends BaseActivity
                 onBackPressed();
             }
         });
-        mToolbar.setTitle(R.string.select_album);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.select_album);
+        }
         getSupportFragmentManager().beginTransaction()
             .add(R.id.image_grid, Bundler.multiImageSelectorFragment(Mode.MODE_SINGLE, true).create())
             .commit();
@@ -86,10 +92,33 @@ public class MultiImageSelectorActivity extends BaseActivity
 
     @Override
     public void onSingleImageSelected(String path) {
-        SinglePicSelectedEvent event = new SinglePicSelectedEvent();
-        event.path = path;
-        EventBus.getDefault().post(event);
-        finish();
+//        SinglePicSelectedEvent event = new SinglePicSelectedEvent();
+//        event.path = path;
+//        EventBus.getDefault().post(event);
+//        finish();
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
+
+        Uri uri = Uri.fromFile(new File(path));
+        CommonUtils.startPhotoZoom(MultiImageSelectorActivity.this, uri, REQUEST_CODE_CAMERA_CROP);
+    }
+
+    private static final int REQUEST_CODE_CAMERA_CROP = 103;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQUEST_CODE_CAMERA_CROP: //裁剪
+                if (resultCode != RESULT_OK) {
+                    return;
+                }
+                String cameraPicPath = CommonUtils.SDCARD + "/" + "temp.jpg";
+//                cropImage(cameraPicPath);
+                break;
+        }
     }
 
     @Override

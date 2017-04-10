@@ -65,8 +65,10 @@ public class ElementaryActivity extends BaseActivity implements IElementaryView 
 
         mToolbar.setBackgroundColor(getResources().getColor(R.color.theme_light));
         setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.from_internet);
+        }
     }
-
 
     private void oneKeyShare(String url) {
         if (mOnekeyShare == null) {
